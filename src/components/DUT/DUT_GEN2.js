@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // import InputGroup from 'react-bootstrap/InputGroup';
 import { Container, Form, Row, Col, ToggleButton, ToggleButtonGroup, Button, Tabs, Tab, ButtonToolbar } from 'react-bootstrap';
-import FileUpload from '../Data/FileUpload';
+import FileUpload_2 from '../Data/FileUpload_2';
 // import InputSlider from 'react-input-slider';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -397,15 +397,19 @@ const TX_MIXER_SETTINGS = [
   { id: 'Mixer_N', min: 0, max: 7, title: 'Mixer N' },
   { id: 'IF_VGA_Bias_S', min: 0, max: 7, title: 'IF VGA S Bias' },
   { id: 'IF_VGA_Bias_N', min: 0, max: 7, title: 'IF VGA N Bias' },
-  { id: 'IF_VGA_S_CS', min: 0, max: 7, title: 'IF VGA S CS' },
-  { id: 'IF_VGA_N_CS', min: 0, max: 7, title: 'IF VGA N CS' }
+  { id: 'IF_VGA_TX_S_CS', min: 0, max: 7, title: 'IF VGA S CS' },
+  { id: 'IF_VGA_TX_N_CS', min: 0, max: 7, title: 'IF VGA N CS' }
 ]
 
 const RX_MIXER_SETTINGS = [
-  { id: 'rxrf', min: 0, max: 3, title: 'RX RF' },
-  { id: 'rxrf_cs', min: 0, max: 15, title: 'RX RF CS' },
-  { id: 'rxmx', min: 0, max: 3, title: 'RX MX' },
-  { id: 'rx_if_diff', min: 0, max: 3, title: 'RX IF Diff'}
+  { id: 'LO_Amp_1', min: 0, max: 7, title: 'LO Amp 1' },
+  { id: 'LO_Amp_2', min: 0, max: 7, title: 'LO Amp 2' },
+  { id: 'Mixer_S', min: 0, max: 7, title: 'Mixer S' },
+  { id: 'Mixer_N', min: 0, max: 7, title: 'Mixer N' },
+  { id: 'IF_VGA_Bias_S', min: 0, max: 7, title: 'IF VGA S Bias' },
+  { id: 'IF_VGA_Bias_N', min: 0, max: 7, title: 'IF VGA N Bias' },
+  { id: 'IF_VGA_RX_S_CS', min: 0, max: 7, title: 'IF VGA S CS' },
+  { id: 'IF_VGA_RX_N_CS', min: 0, max: 7, title: 'IF VGA N CS' }
 ]
 
 const RFC_RX_AGC_SETTINGS = [
@@ -999,6 +1003,12 @@ class DUT_GEN2 extends React.Component {
       // this.get_state(button).then(() => console.log('Test', button.id));
     }
 
+    saveSettingsToFile = e => {
+      e.preventDefault();
+      this.sendMove(`save_settings_to_file/kfam`);
+
+    }
+
     async get_state(button) {
       var url = ``;
       if (this.state.dut === "kfam") {
@@ -1288,11 +1298,13 @@ class DUT_GEN2 extends React.Component {
       let queryObj = { 
           settings: {
             "LNA_BSW": this.state.LNA_BSW, 
-            "1_2_bsw": this.state.sp_1_2_bsw, 
-            "phase_fine_tuning": this.state.fine_phase, 
+            "2_1_ACD_BSW": this.state.sp_1_2_bsw, 
+            "Fine_Phase": this.state.Fine_Phase, 
             "BD_VGA_BSW": this.state.BD_VGA_BSW, 
-            "DisN_BA_BSW": this.state.DisN_BA_BSW, 
-            "1_4_bsw": this.state.sp_1_4_bsw
+            "DisN_BA_BSW_S": this.state.DisN_BA_BSW_S, 
+            "DisN_BA_BSW_N": this.state.DisN_BA_BSW_N, 
+            "4_1_ACD_BSW_S": this.state.sp_1_4_bsw_S,
+            "4_1_ACD_BSW_N": this.state.sp_1_4_bsw_N,
           },
           rfcs: this.state.selectedRFCs
         
@@ -1320,12 +1332,14 @@ class DUT_GEN2 extends React.Component {
       e.preventDefault();
       let queryObj = { 
           settings: {
-            "IF_VGA_S_Bias": this.state.if_vga_s_ba,
+            "IF_VGA_Bias_S": this.state.IF_VGA_Bias_S,
             "LO_Amp_1": this.state.LO_Amp_1,
             "LO_Amp_2": this.state.LO_Amp_2,
-            "IF_VGA_N_Bias": this.state.if_vga_n_ba,
+            "IF_VGA_Bias_N": this.state.IF_VGA_Bias_N,
             "Mixer_S": this.state.Mixer_S,
-            "Mixer_N": this.state.Mixer_N            
+            "Mixer_N": this.state.Mixer_N,
+            "IF_VGA_TX_S_CS": this.state.IF_VGA_TX_S_CS,
+            "IF_VGA_TX_N_CS": this.state.IF_VGA_TX_N_CS,      
           }
         
       };
@@ -1530,7 +1544,7 @@ class DUT_GEN2 extends React.Component {
                                 <Button size="sm" onClick={this.show_file_upload}>Toggle Display File Upload</Button>
                                 {this.state.file_upload &&
                                   <Container style={{borderColor: '#000000', borderWidth: '1px', borderStyle: 'solid'}}>
-                                    <FileUpload/>
+                                    <FileUpload_2/>
                                   </Container>
                                 
                                 }
@@ -1835,7 +1849,15 @@ class DUT_GEN2 extends React.Component {
                                     <h5>Register Control</h5>
                                     {this.state.dut === "kfam" &&
                                       <div>
-                                        <Button variant='outline-primary' onClick={() => this.get_state(BUTTONS[20])}>Read Current State</Button>
+                                        <Row>
+                                          <Col>
+                                            <Button variant='outline-primary' onClick={() => this.get_state(BUTTONS[20])}>Read Current State</Button>
+
+                                          </Col>
+                                          <Col>
+                                            <Button onClick={this.saveSettingsToFile} variant='warning'>Save Current Settings to File</Button>
+                                          </Col>
+                                        </Row>
                                       </div>                                    
                                     }
                                     <br/>
