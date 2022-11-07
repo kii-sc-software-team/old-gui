@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import React from 'react';
 
-class FileUpload extends React.Component {
+class FileUpload_1p5 extends React.Component {
 
     // constructor(props) {
     //     super();
@@ -101,7 +101,7 @@ class FileUpload extends React.Component {
 
         // Request made to the backend api
         // Send formData object
-        let query = `http://127.0.0.1:5000/${this.state.data_type}/test_file`;
+        let query = `http://127.0.0.1:5000/gen1p5/${this.state.data_type}/test_file`;
         console.log(query);
         axios.post(query, this.state.json_data, { 
             headers: {  
@@ -173,4 +173,4 @@ class FileUpload extends React.Component {
 	}
 }
 
-export default FileUpload;
+export default FileUpload_1p5;
