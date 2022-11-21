@@ -2,8 +2,8 @@ import React from 'react';
 import axios from 'axios';
 
 // import InputGroup from 'react-bootstrap/InputGroup';
-import { Container, Form, Row, Col, ToggleButton, ToggleButtonGroup, Button, Tabs, Tab, ButtonToolbar } from 'react-bootstrap';
-import FileUpload_2 from '../Data/FileUpload_2';
+import { Container, Form, Row, Col, ToggleButton, ToggleButtonGroup, Button, Tabs, Tab, ButtonToolbar, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import FileUpload2 from '../Data/FileUpload_2';
 // import InputSlider from 'react-input-slider';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -383,53 +383,53 @@ const RFC_MAP = [
 ]
 
 const RFC_TX_AGC_SETTINGS = [
-  { id: 'PA_Bias', min: 0, max: 7, title: 'PA' },
-  { id: 'DA_Bias', min: 0, max: 7, title: 'DA' },
-  { id: 'BDVGA_TX_Bias', min: 0, max: 7, title: 'BD VGA Bias' },
-  { id: 'DisN_BA_TX_S_Bias', min: 0, max: 7, title: 'DisNBA S Bias' },
-  { id: 'DisN_BA_TX_N_Bias', min: 0, max: 7, title: 'DisNBA N Bias' }
+  { id: 'PA_Bias', min: 0, max: 7, title: 'PA', pol: ['V','H'] },
+  { id: 'DA_Bias', min: 0, max: 7, title: 'DA', pol: ['V','H'] },
+  { id: 'BDVGA_TX_Bias', min: 0, max: 7, title: 'BD VGA Bias', pol: ['V','H'] },
+  { id: 'DisN_BA_TX_S_Bias', min: 0, max: 7, title: 'DisNBA S Bias', pol: ['H'] },
+  { id: 'DisN_BA_TX_N_Bias', min: 0, max: 7, title: 'DisNBA N Bias', pol: ['V'] }
 ]
 
 const TX_MIXER_SETTINGS = [
-  { id: 'LO_Amp_1', min: 0, max: 7, title: 'LO Amp 1' },
-  { id: 'LO_Amp_2', min: 0, max: 7, title: 'LO Amp 2' },
-  { id: 'Mixer_S', min: 0, max: 7, title: 'Mixer S' },
-  { id: 'Mixer_N', min: 0, max: 7, title: 'Mixer N' },
-  { id: 'IF_VGA_Bias_S', min: 0, max: 7, title: 'IF VGA S Bias' },
-  { id: 'IF_VGA_Bias_N', min: 0, max: 7, title: 'IF VGA N Bias' },
-  { id: 'IF_VGA_TX_S_CS', min: 0, max: 7, title: 'IF VGA S CS' },
-  { id: 'IF_VGA_TX_N_CS', min: 0, max: 7, title: 'IF VGA N CS' }
+  { id: 'LO_Amp_1', min: 0, max: 7, title: 'LO Amp 1', pol: ['V','H'] },
+  { id: 'LO_Amp_2', min: 0, max: 7, title: 'LO Amp 2', pol: ['V','H'] },
+  { id: 'Mixer_S', min: 0, max: 7, title: 'Mixer S', pol: ['H'] },
+  { id: 'Mixer_N', min: 0, max: 7, title: 'Mixer N', pol: ['V'] },
+  { id: 'IF_VGA_Bias_S', min: 0, max: 7, title: 'IF VGA S Bias', pol: ['H'] },
+  { id: 'IF_VGA_Bias_N', min: 0, max: 7, title: 'IF VGA N Bias', pol: ['V'] },
+  { id: 'IF_VGA_RX_S_CS', min: 0, max: 7, title: 'IF VGA S CS', pol: ['H'] },
+  { id: 'IF_VGA_RX_N_CS', min: 0, max: 7, title: 'IF VGA N CS', pol: ['V'] }
 ]
 
 const RX_MIXER_SETTINGS = [
-  { id: 'LO_Amp_1', min: 0, max: 7, title: 'LO Amp 1' },
-  { id: 'LO_Amp_2', min: 0, max: 7, title: 'LO Amp 2' },
-  { id: 'Mixer_S', min: 0, max: 7, title: 'Mixer S' },
-  { id: 'Mixer_N', min: 0, max: 7, title: 'Mixer N' },
-  { id: 'IF_VGA_Bias_S', min: 0, max: 7, title: 'IF VGA S Bias' },
-  { id: 'IF_VGA_Bias_N', min: 0, max: 7, title: 'IF VGA N Bias' },
-  { id: 'IF_VGA_RX_S_CS', min: 0, max: 7, title: 'IF VGA S CS' },
-  { id: 'IF_VGA_RX_N_CS', min: 0, max: 7, title: 'IF VGA N CS' }
+  { id: 'LO_Amp_1', min: 0, max: 7, title: 'LO Amp 1', pol: ['V','H'] },
+  { id: 'LO_Amp_2', min: 0, max: 7, title: 'LO Amp 2', pol: ['V','H'] },
+  { id: 'Mixer_S', min: 0, max: 7, title: 'Mixer S', pol: ['H'] },
+  { id: 'Mixer_N', min: 0, max: 7, title: 'Mixer N', pol: ['V'] },
+  { id: 'IF_VGA_Bias_S', min: 0, max: 7, title: 'IF VGA S Bias', pol: ['H'] },
+  { id: 'IF_VGA_Bias_N', min: 0, max: 7, title: 'IF VGA N Bias', pol: ['V'] },
+  { id: 'IF_VGA_RX_S_CS', min: 0, max: 7, title: 'IF VGA S CS', pol: ['H'] },
+  { id: 'IF_VGA_RX_N_CS', min: 0, max: 7, title: 'IF VGA N CS', pol: ['V'] }
 ]
 
 const RFC_RX_AGC_SETTINGS = [
-  { id: 'LNA1_Bias', min: 0, max: 7, title: 'LNA1' },
-  { id: 'LNA2_Bias', min: 0, max: 7, title: 'LNA2' },
-  { id: 'LNA_180', min: 0, max: 1, title: 'LNA 180' },
-  { id: 'BDVGA_RX_Bias', min: 0, max: 7, title: 'BD VGA Bias' },
-  { id: 'DisN_BA_RX_S_Bias', min: 0, max: 7, title: 'DisNBA S Bias' },
-  { id: 'DisN_BA_RX_N_Bias', min: 0, max: 7, title: 'DisNBA N Bias' }  
+  { id: 'LNA1_Bias', min: 0, max: 7, title: 'LNA1', pol: ['V','H'] },
+  { id: 'LNA2_Bias', min: 0, max: 7, title: 'LNA2', pol: ['V','H'] },
+  { id: 'LNA_180', min: 0, max: 1, title: 'LNA 180', pol: ['V','H'] },
+  { id: 'BDVGA_RX_Bias', min: 0, max: 7, title: 'BD VGA Bias', pol: ['V','H'] },
+  { id: 'DisN_BA_RX_S_Bias', min: 0, max: 7, title: 'DisNBA S Bias', pol: ['H'] },
+  { id: 'DisN_BA_RX_N_Bias', min: 0, max: 7, title: 'DisNBA N Bias', pol: ['V'] }  
 ]
 
 const RFC_BSW_SETTINGS = [
-  { id: 'LNA_BSW', min: 0, max: 7, title: 'LNA BSW' },
-  { id: 'sp_1_2_bsw', min: 0, max: 3, title: '1-2 BSW' },
-  { id: 'Fine_Phase', min: 0, max: 7, title: 'Fine Phase Tuning' },
-  { id: 'BD_VGA_BSW', min: 0, max: 7, title: 'BD VGA BSW' },
-  { id: 'sp_1_4_bsw_S', min: 0, max: 1, title: '1-4 BSW S' },
-  { id: 'sp_1_4_bsw_N', min: 0, max: 1, title: '1-4 BSW N' },
-  { id: 'DisN_BA_BSW_S', min: 0, max: 7, title: 'DisNBA BSW S' },
-  { id: 'DisN_BA_BSW_N', min: 0, max: 7, title: 'DisNBA BSW N' }
+  { id: 'LNA_BSW', min: 0, max: 7, title: 'LNA BSW', pol: ['V','H'] },
+  { id: 'sp_1_2_bsw', min: 0, max: 3, title: '1-2 BSW', pol: ['V','H'] },
+  { id: 'Fine_Phase', min: 0, max: 7, title: 'Fine Phase Tuning', pol: ['V','H'] },
+  { id: 'BD_VGA_BSW', min: 0, max: 7, title: 'BD VGA BSW', pol: ['V','H'] },
+  { id: 'sp_1_4_bsw_S', min: 0, max: 1, title: '1-4 BSW S', pol: ['H'] },
+  { id: 'sp_1_4_bsw_N', min: 0, max: 1, title: '1-4 BSW N', pol: ['V'] },
+  { id: 'DisN_BA_BSW_S', min: 0, max: 7, title: 'DisNBA BSW S', pol: ['H'] },
+  { id: 'DisN_BA_BSW_N', min: 0, max: 7, title: 'DisNBA BSW N', pol: ['V'] }
 ]
 
 
@@ -439,18 +439,20 @@ class DUT_GEN2 extends React.Component {
       this.state = {
         polarity: 'H',
         tx_rx: 'TX',
-        reset_dut: 'True',
+        reset_dut: 'False',
         currBeam: '',
+        ic_gen: '2p1',
         num_beams: 0,
         chosenBeam: '',
         beam_toggle: 0,
-        dut: '',
+        dut: 'kfam',
         dut_sn: '',
         evb_sn: '',
         message: '',
         paam_row: '',
         paam_col: '',
         register_control: false,
+        manual_register: false,
         file_upload: false,
         test_reg: 4,
         show_rfc_tx_agc: false,
@@ -516,25 +518,14 @@ class DUT_GEN2 extends React.Component {
         acd_bias_14: 0,
         acd_bias_15: 0,
 
-        settings: {
-          PA_Bias: 4,
-          DA_Bias: 4,
-          BDVGA_TX_Bias: 5,
-          BDVGA_TX_Bias_cs: 15,
-          d_ba: 6,
-          d_ba_cs: 15,
-          
-          txif: 2,
-          rxrf: 0,
-          rxmx: 0,
-          rx_if_diff: 0,
-          rxrf_cs: 0,
-          mx_vga_stg1: 2,
-          mx_vga_stg2: 2,
-          if_vga_n_ba: 1,
-          Mixer_S: 2,
-          Mixer_N: 2,
-        },
+        register_fields: [
+          {
+            field: "PA_Bias",
+            value: 4,
+            address: 3072, 
+            max: 7
+          }
+        ],
 
         PA_Bias: 1,
         DA_Bias: 1,
@@ -583,6 +574,8 @@ class DUT_GEN2 extends React.Component {
         selectedCols: [],
         modulesOn: [],
         standby: [],
+
+        variableRFCs: [],
 
         reg_vals: ['Test', 'test2'],
 
@@ -675,6 +668,33 @@ class DUT_GEN2 extends React.Component {
       this.setState({selectedRFCs: []})
     }
 
+    handleVariableRFC = button => {
+      let tmp = this.state.variableRFCs;
+      console.log(tmp);
+
+      if (this.state.variableRFCs.includes(button.id)) {
+          this.setState({
+            variableRFCs: this.state.variableRFCs.filter(el => el !== button.id),
+          })
+
+      } else {
+          tmp.push(button.id);
+          this.setState({
+            variableRFCs: tmp
+          })
+      }
+
+      console.log(this.state);
+    }
+
+    selectVariableRFCs = e => {
+      this.setState({variableRFCs: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]})
+    }
+
+    unSelectVariableRFCs = e => {
+      this.setState({variableRFCs: []})
+    }
+
     handleInputChange(event) {
       const target = event.target;
       const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -719,7 +739,7 @@ class DUT_GEN2 extends React.Component {
     connect = e => {
         e.preventDefault();
         if (this.state.dut === "kfam") {
-            this.sendMove(`init/kfam+${this.state.polarity}+${this.state.tx_rx}+${this.state.reset_dut}+${this.state.evb_sn}+${this.state.dut_sn}`);
+            this.sendMove(`init/kfam+${this.state.polarity}+${this.state.tx_rx}+${this.state.reset_dut}+${this.state.evb_sn}+${this.state.dut_sn}+${this.state.ic_gen}`);
         } else {
             this.sendMove(`init/paam+${this.state.polarity}+${this.state.tx_rx}+${this.state.reset_dut}+${this.state.evb_sn}+${this.state.dut_sn}`);
         }
@@ -858,6 +878,13 @@ class DUT_GEN2 extends React.Component {
       })
     }
 
+    manual_register_control = e => {
+      e.preventDefault();
+      this.setState({
+        manual_register: !this.state.manual_register
+      })
+    }
+
     show_file_upload = e => {
       e.preventDefault();
       this.setState({
@@ -885,7 +912,7 @@ class DUT_GEN2 extends React.Component {
         this.sendMove(`paam/codebook/${this.state.selectedRows}+${this.state.selectedCols}`);
       }
       else{
-        this.sendMove(`beam_steer_test/${this.state.polarity}`);
+        this.sendMove(`codebook`);
       }  
       this.setState({
         // currBeam: "1",
@@ -1278,36 +1305,63 @@ class DUT_GEN2 extends React.Component {
 
     send_rfc_tx_agc = e => {
       e.preventDefault();
-      let queryObj = { 
+      let queryObj = {};
+      if (this.state.polarity === 'H') {
+        queryObj = {
           settings: {
             "PA_Bias": this.state.PA_Bias,
             "DA_Bias": this.state.DA_Bias,
             "BDVGA_TX_Bias": this.state.BDVGA_TX_Bias,
             // "BDVGA_TX_Bias_cs": this.state.BDVGA_TX_Bias_cs,
             "DisN_BA_TX_S_Bias": this.state.DisN_BA_TX_S_Bias,
+          },
+          rfcs: this.state.variableRFCs
+        }
+      };
+      if (this.state.polarity === 'V') {
+        queryObj = {
+          settings: {
+            "PA_Bias": this.state.PA_Bias,
+            "DA_Bias": this.state.DA_Bias,
+            "BDVGA_TX_Bias": this.state.BDVGA_TX_Bias,
+            // "BDVGA_TX_Bias_cs": this.state.BDVGA_TX_Bias_cs,
             "DisN_BA_TX_N_Bias": this.state.DisN_BA_TX_N_Bias
           },
-          rfcs: this.state.selectedRFCs
-        
+          rfcs: this.state.variableRFCs
+        }
       };
+      
       this.makePostRequest('http://127.0.0.1:5000/dut_gen2/update_settings/agc', queryObj);
     }
 
     send_rfc_bsw = e => {
       e.preventDefault();
-      let queryObj = { 
+      let queryObj = {};
+      if (this.state.polarity === 'H') {
+        queryObj = {
           settings: {
             "LNA_BSW": this.state.LNA_BSW, 
             "2_1_ACD_BSW": this.state.sp_1_2_bsw, 
             "Fine_Phase": this.state.Fine_Phase, 
             "BD_VGA_BSW": this.state.BD_VGA_BSW, 
             "DisN_BA_BSW_S": this.state.DisN_BA_BSW_S, 
-            "DisN_BA_BSW_N": this.state.DisN_BA_BSW_N, 
             "4_1_ACD_BSW_S": this.state.sp_1_4_bsw_S,
+          },
+          rfcs: this.state.variableRFCs
+        }
+      };
+      if (this.state.polarity === 'V') {
+        queryObj = {
+          settings: {
+            "LNA_BSW": this.state.LNA_BSW, 
+            "2_1_ACD_BSW": this.state.sp_1_2_bsw, 
+            "Fine_Phase": this.state.Fine_Phase, 
+            "BD_VGA_BSW": this.state.BD_VGA_BSW, 
+            "DisN_BA_BSW_N": this.state.DisN_BA_BSW_N, 
             "4_1_ACD_BSW_N": this.state.sp_1_4_bsw_N,
           },
-          rfcs: this.state.selectedRFCs
-        
+          rfcs: this.state.variableRFCs
+        }
       };
       this.makePostRequest('http://127.0.0.1:5000/dut_gen2/update_settings/bsw', queryObj);
     }
@@ -1322,7 +1376,8 @@ class DUT_GEN2 extends React.Component {
             // "rsv_rfc": this.state.rsv_rfc,
             "RX_agc_DBa_Bias": this.state.rx_d_ba,
             // "rx_d_ba_cs": this.state.rx_d_ba_cs
-          }
+          },
+          rfcs: this.state.variableRFCs
         
       };
       this.makePostRequest('http://127.0.0.1:5000/dut_gen2/update_settings/agc', queryObj);
@@ -1330,18 +1385,28 @@ class DUT_GEN2 extends React.Component {
 
     send_tx_mixer = e => {
       e.preventDefault();
-      let queryObj = { 
-          settings: {
+      let queryObj = {};
+      if (this.state.polarity === 'H') {
+        queryObj = {
+          settings: {            
             "IF_VGA_Bias_S": this.state.IF_VGA_Bias_S,
             "LO_Amp_1": this.state.LO_Amp_1,
             "LO_Amp_2": this.state.LO_Amp_2,
-            "IF_VGA_Bias_N": this.state.IF_VGA_Bias_N,
             "Mixer_S": this.state.Mixer_S,
-            "Mixer_N": this.state.Mixer_N,
             "IF_VGA_TX_S_CS": this.state.IF_VGA_TX_S_CS,
-            "IF_VGA_TX_N_CS": this.state.IF_VGA_TX_N_CS,      
           }
-        
+        }
+      };
+      if (this.state.polarity === 'V') {
+        queryObj = {
+          settings: {            
+            "LO_Amp_1": this.state.LO_Amp_1,
+            "LO_Amp_2": this.state.LO_Amp_2,
+            "IF_VGA_Bias_N": this.state.IF_VGA_Bias_N,
+            "Mixer_N": this.state.Mixer_N,
+            "IF_VGA_TX_N_CS": this.state.IF_VGA_TX_N_CS,  
+          }
+        }
       };
       this.makePostRequest('http://127.0.0.1:5000/dut_gen2/update_settings/mixer', queryObj);
     }
@@ -1349,14 +1414,28 @@ class DUT_GEN2 extends React.Component {
 
     send_rx_mixer = e => {
       e.preventDefault();
-      let queryObj = { 
+      let queryObj = {};
+      if (this.state.polarity === 'H') {
+        queryObj = {
           settings: {            
-            "rxmx": this.state.rxmx,
-            "rx_if_diff": this.state.rx_if_diff,
-            "rxrf": this.state.rxrf,
-            "rxrf_cs": this.state.rxrf_cs
+            "IF_VGA_Bias_S": this.state.IF_VGA_Bias_S,
+            "LO_Amp_1": this.state.LO_Amp_1,
+            "LO_Amp_2": this.state.LO_Amp_2,
+            "Mixer_S": this.state.Mixer_S,
+            "IF_VGA_TX_S_CS": this.state.IF_VGA_TX_S_CS,
           }
-        
+        }
+      };
+      if (this.state.polarity === 'V') {
+        queryObj = {
+          settings: {            
+            "LO_Amp_1": this.state.LO_Amp_1,
+            "LO_Amp_2": this.state.LO_Amp_2,
+            "IF_VGA_Bias_N": this.state.IF_VGA_Bias_N,
+            "Mixer_N": this.state.Mixer_N,
+            "IF_VGA_TX_N_CS": this.state.IF_VGA_TX_N_CS,  
+          }
+        }
       };
       this.makePostRequest('http://127.0.0.1:5000/dut_gen2/update_settings/mixer', queryObj);
     }
@@ -1391,6 +1470,11 @@ class DUT_GEN2 extends React.Component {
     die_address_write_bin = e => {
       e.preventDefault();
       this.sendMove(`die_address_write_bin/${this.state.die_select}+${this.state.reg_address}+${this.state.reg_bin}`);
+    }
+
+    die_address_read_fields = e => {
+      e.preventDefault();
+      this.sendMove(`die_address_read_fields/${this.state.die_select}+${this.state.reg_address}`);
     }
 
 
@@ -1433,7 +1517,26 @@ class DUT_GEN2 extends React.Component {
       }
     }
 
-    
+    variablerfcscolor(button) {
+      if (this.state.variableRFCs.includes(button)) {
+        return 'primary'
+      }
+      if (this.state.rfcsOn.includes(button)) {
+          return 'success'
+      }
+      if (this.state.rfcsStandby.includes(button)) {
+        return 'warning'
+      }
+      else {
+        return 'outline-primary'
+      }
+    }
+
+    renderTooltip = (props) => (
+      <Tooltip id="button-tooltip">
+        {props}
+      </Tooltip>
+    );
 
     render () {
       return (
@@ -1443,14 +1546,11 @@ class DUT_GEN2 extends React.Component {
                 <h3>DUT Gen 2</h3>
                 <p>This is a placeholder for the DUT section</p>
                 <Row>
-                    {/* <Col xs sm md lg xl="3">
-                        <KFAMNav/>
-                    </Col> */}
                     <Col>
                         <Container style={{backgroundColor: '#dde4f0', borderRadius: '20px', borderColor: '#000000', borderWidth: '1px', borderStyle: 'solid'}}>
                             <Form>
                                 <br/>
-                                <h3>Control DUT Gen 2</h3>
+                                <h3>Control DUT</h3>
                                 <hr/>
                                 <h5>DUT Setup</h5>
                                 <br/>
@@ -1459,26 +1559,39 @@ class DUT_GEN2 extends React.Component {
                                         <Form.Group>
                                             <Form.Label>Select DUT:</Form.Label>
                                             <select style={{width: "150px", resize:'none', float: 'right'}} class="form-select" name="dut" aria-label="Default select example"  onChange={this.handleInputChange}>
-                                                <option selected>Select DUT</option>
-                                                <option value="kfam">KFAM</option>
+                                                <option>Select DUT</option>
+                                                <option selected="kfam">KFAM</option>
                                                 <option value="paam">PAAM</option>
                                             </select>
                                         </Form.Group>
                                     </Col>
                                     <Col>
                                         <Form.Group>
-                                            <Form.Label>DUT SN:</Form.Label>
-                                            <Form.Control style={{width:'150px', resize:'none', float: 'right'}} name="dut_sn" value={this.state.dut_sn} placeholder="DUT SN." onChange={this.handleInputChange}/>
+                                            <Form.Label>Select IC Gen:</Form.Label>
+                                            <select style={{width: "150px", resize:'none', float: 'right'}} class="form-select" name="ic_gen" aria-label="Default select example"  onChange={this.handleInputChange}>
+                                                <option selected>Select DUT</option>
+                                                <option value="1p5">1.5</option>
+                                                <option value="2p0">2.0</option>
+                                                <option value="2p1">2.1</option>
+                                            </select>
                                         </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                  <Col>
+                                      <Form.Group>
+                                          <Form.Label>DUT SN:</Form.Label>
+                                          <Form.Control style={{width:'150px', resize:'none', float: 'right'}} name="dut_sn" value={this.state.dut_sn} placeholder="DUT SN." onChange={this.handleInputChange}/>
+                                      </Form.Group>
+                                
+                                  </Col>
+                                  <Col>
+                                      <Form.Group>
+                                          <Form.Label>EVB SN:</Form.Label>
+                                          <Form.Control style={{width:'150px', resize:'none', float: 'right'}} name="evb_sn" value={this.state.evb_sn} placeholder="EVB SN." onChange={this.handleInputChange}/>
+                                      </Form.Group>
                                   
-                                    </Col>
-                                    <Col>
-                                        <Form.Group>
-                                            <Form.Label>EVB SN:</Form.Label>
-                                            <Form.Control style={{width:'150px', resize:'none', float: 'right'}} name="evb_sn" value={this.state.evb_sn} placeholder="EVB SN." onChange={this.handleInputChange}/>
-                                        </Form.Group>
-                                    
-                                    </Col>
+                                  </Col>
                                 </Row>
                                 <br/>
                                 <Row>
@@ -1523,33 +1636,57 @@ class DUT_GEN2 extends React.Component {
                                     </Col>
                                 </Row>
                                 <br/>
-                                <Button size="md" variant="danger" style={{width:'120px', resize:'none', float: 'right'}} onClick={this.powerOff}>
-                                    Power OFF
-                                </Button>
+                                <OverlayTrigger
+                                  placement="auto"
+                                  overlay={this.renderTooltip("Complete power off")}
+                                >
+                                  <Button size="md" variant="danger" onhov style={{width:'120px', resize:'none', float: 'right'}} onClick={this.powerOff}>
+                                      Power OFF
+                                  </Button>
+                                </OverlayTrigger>
                                 {this.state.dut === "kfam" &&
-                                <Button size="md" variant="success" style={{width:'100px', resize:'none', float: 'right'}} onClick={this.powerOn}>
-                                    Power On
-                                </Button>
+                                <OverlayTrigger
+                                  placement="auto"
+                                  overlay={this.renderTooltip("Full Power Cycle")}
+                                >
+                                  <Button size="md" variant="success" style={{width:'100px', resize:'none', float: 'right'}} onClick={this.powerOn}>
+                                      Power On
+                                  </Button>
+                                </OverlayTrigger>
                                 }
-                                <Button size="md" variant="warning" style={{width:'120px', resize:'none', float: 'right'}} onClick={this.disconnect}>
-                                    Disconnect
-                                </Button>
-                                <Button size="md" style={{width:'120px', resize:'none', float: 'right'}} onClick={this.connect}>
-                                    Connect
-                                </Button>
+                                <OverlayTrigger
+                                  placement="auto"
+                                  overlay={this.renderTooltip("Disconnect DUT")}
+                                >
+                                  <Button size="md" variant="warning" style={{width:'120px', resize:'none', float: 'right'}} onClick={this.disconnect}>
+                                      Disconnect
+                                  </Button>
+                                </OverlayTrigger>
+                                <OverlayTrigger
+                                  placement="auto"
+                                  overlay={this.renderTooltip("Connect to DUT")}
+                                >
+                                  <Button size="md" style={{width:'120px', resize:'none', float: 'right'}} onClick={this.connect}>
+                                      Connect
+                                  </Button>
+                                </OverlayTrigger>
                       
                                 <br/>
                                 <hr/>
                                 <h5>Apply Variable/Phase Settings</h5>
-                                <Button size="sm" onClick={this.show_file_upload}>Toggle Display File Upload</Button>
+                                <OverlayTrigger
+                                  placement="auto"
+                                  overlay={this.renderTooltip("Show File Upload Box for Phases or Variable Fields")}
+                                >
+                                  <Button size="sm" onClick={this.show_file_upload}>Toggle Display File Upload</Button>
+                                </OverlayTrigger>
                                 {this.state.file_upload &&
                                   <Container style={{borderColor: '#000000', borderWidth: '1px', borderStyle: 'solid'}}>
-                                    <FileUpload_2/>
+                                    <FileUpload2/>
                                   </Container>
                                 
                                 }
-                                
-                                
+
                                 {this.state.dut === "paam" &&
                                     <div>
                                       <hr/>
@@ -1722,12 +1859,9 @@ class DUT_GEN2 extends React.Component {
                                           <Col sm>
                                                 <h5>RFCs Powered On (Display Grid)</h5>
                                                 <Container style={{width: "250px"}}>
-                                                  {/* <ButtonToolbar style={{width: "400px"}}> */}
-                                                  {/* <ToggleButtonGroup type='checkbox' value={this.state.modulesOn}> */}
                                                   {RFC_MAP.map(bt => (
                                                       <Button style={{width: "50px"}}
                                                           variant={this.rfcscolor(bt.id)}//{this.state.standby.includes(bt.id) ? 'warning' : 'outline-success'}
-                                                          // type='checkbox'
                                                           key={bt.id}
                                                           // value={bt.id}
                                                           onClick={() => this.read_state(bt)}
@@ -1736,8 +1870,6 @@ class DUT_GEN2 extends React.Component {
                                                           {this.state.polarity === "H" ? bt.h : bt.v}
                                                       </Button>
                                                   ))}
-                                                  {/* </ToggleButtonGroup> */}
-                                                  {/* </ButtonToolbar> */}
                                               </Container >
                                           <hr/>
                                           </Col>
@@ -1766,41 +1898,101 @@ class DUT_GEN2 extends React.Component {
                                                 {/* </ToggleButtonGroup> */}
                                                 </ButtonToolbar>
                                                 <hr/>
-                                                <Button variant='outline-success' onClick={this.selectAllRFCs}>Select All</Button>
-                                                <Button variant='outline-danger' onClick={this.unSelectAllRFCs}>Unselect All</Button>
-
-                                                
+                                                <OverlayTrigger
+                                                  placement="auto"
+                                                  overlay={this.renderTooltip("Select All RFCs")}
+                                                >
+                                                  <Button variant='outline-success' onClick={this.selectAllRFCs}>Select All</Button>                                                  
+                                                </OverlayTrigger>
+                                                <OverlayTrigger
+                                                  placement="auto"
+                                                  overlay={this.renderTooltip("Unselect ALL RFCs")}
+                                                >
+                                                  <Button variant='outline-danger' onClick={this.unSelectAllRFCs}>Unselect All</Button>                                                  
+                                                </OverlayTrigger>
                                             </Container >
                                           </Col>
                                           
                                         </Row>
                                         <Row style={{float: 'right'}}>
-                                          
-                                          <Button size="sm" variant="success" style={{width:'100px', resize:'none', float: 'right'}} onClick={this.kfam_rfcs_on}>
-                                            RFCs On
-                                          </Button>
+                                          <OverlayTrigger
+                                            placement="auto"
+                                            overlay={this.renderTooltip("Enable selected RFCs")}
+                                          >
+                                            <Button size="sm" variant="success" style={{width:'100px', resize:'none', float: 'right'}} onClick={this.kfam_rfcs_on}>
+                                              RFCs On
+                                            </Button>
+                                          </OverlayTrigger>
                                           {' '}
-                                          <Button size="sm" variant="danger" style={{width:'100px', resize:'none', float: 'right'}} onClick={this.rfcsOff}>
-                                            RFCs Off
-                                          </Button>
+                                          <OverlayTrigger
+                                            placement="auto"
+                                            overlay={this.renderTooltip("Disable selected RFCs")}
+                                          >
+                                            <Button size="sm" variant="danger" style={{width:'100px', resize:'none', float: 'right'}} onClick={this.rfcsOff}>
+                                              RFCs Off
+                                            </Button>                                            
+                                          </OverlayTrigger>
                                         </Row>
                                         
-                                          {/* <Col> */}
                                       </div>
                                 }
                                 <br/>
                                 <hr/>
-                                
-                                <Button size="sm" onClick={this.show_register_control}>
-                                  Toggle Display Register Control
-                                </Button>
-                                
-                                <br/>
-                                {this.state.register_control &&
+                                <OverlayTrigger
+                                  placement="auto"
+                                  overlay={this.renderTooltip("Display Manual Register Control")}
+                                >
+                                  <Button size="sm" onClick={this.manual_register_control}>
+                                    Toggle Manual Register Control
+                                  </Button>
+                                </OverlayTrigger>
+                                {this.state.manual_register &&
                                   <div>
                                     <br/>
-                                    <br/>
-                                    <Container>
+                                    <Container style={{border: '1px solid black'}}>
+                                      <h5>Manual Register Control</h5>
+                                      <Row>
+                                        <Col>
+                                          <Form.Group className="mb-3" controlId="formBasicEmail">
+                                            <Form.Label>Die Select</Form.Label>
+                                            <ToggleButtonGroup type="radio" name="die_select" defaultValue={"0"}>
+                                                <ToggleButton variant="outline-dark" id="die_0" value={"0"} checked={this.state.checked === "0"} onChange={this.handleInputChange}>
+                                                    0
+                                                </ToggleButton>
+                                                <ToggleButton variant="outline-dark" id="die_1" value={"1"} checked={this.state.checked === "1"} onChange={this.handleInputChange}>
+                                                    1
+                                                </ToggleButton>
+                                            </ToggleButtonGroup>
+                                          </Form.Group>
+                                        </Col>
+                                        <Col>
+                                          <br/>
+                                          <OverlayTrigger
+                                            placement="auto"
+                                            overlay={this.renderTooltip("Read Register Value")}
+                                          >
+                                            <Button variant='warning' onClick={this.die_address_read}>Read</Button>
+                                          </OverlayTrigger>
+                                        </Col>
+                                        <Col>
+                                          <br/>
+                                          <OverlayTrigger
+                                            placement="auto"
+                                            overlay={this.renderTooltip("Write HEX Value to selected Die Address")}
+                                          >
+                                            <Button variant='success' onClick={this.die_address_write_hex}>Write Hex</Button>
+                                          </OverlayTrigger>
+                                        </Col>
+                                        <Col>
+                                          <br/>
+                                          <OverlayTrigger
+                                            placement="auto"
+                                            overlay={this.renderTooltip("Write Binary Value to selected Die Address")}
+                                          >
+                                            <Button variant='success' onClick={this.die_address_write_bin}>Write Binary</Button>
+                                          </OverlayTrigger>
+                                        </Col>
+                                      </Row>
                                       <Row>
                                         <Col>
                                           <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -1822,40 +2014,76 @@ class DUT_GEN2 extends React.Component {
                                         </Col>
                                       </Row>
                                       <Row>
-                                        <Col>
-                                          <Form.Group className="mb-3" controlId="formBasicEmail">
-                                            <Form.Label>Die Select</Form.Label>
-                                            <ToggleButtonGroup type="radio" name="die_select" defaultValue={"0"}>
-                                                <ToggleButton variant="outline-dark" id="die_0" value={"0"} checked={this.state.checked === "0"} onChange={this.handleInputChange}>
-                                                    0
-                                                </ToggleButton>
-                                                <ToggleButton variant="outline-dark" id="die_1" value={"1"} checked={this.state.checked === "1"} onChange={this.handleInputChange}>
-                                                    1
-                                                </ToggleButton>
-                                            </ToggleButtonGroup>
-                                          </Form.Group>
+                                        <Col xs={2} sm={2} md={2} lg={2}>
+                                          {/* {this.state.settings} */}
+                                          <br/>
+                                          <br/>
+                                          <OverlayTrigger
+                                            placement="auto"
+                                            overlay={this.renderTooltip("Read Register Fields from selected Die Address")}
+                                          >
+                                            <Button variant='success' onClick={this.die_address_read_fields}>Read Fields</Button>
+                                          </OverlayTrigger>
                                         </Col>
                                         <Col>
-                                          <Button variant='warning' onClick={this.die_address_read}>Read</Button>
-                                        </Col>
-                                        <Col>
-                                          <Button variant='success' onClick={this.die_address_write_hex}>Write Hex</Button>
-                                        </Col>
-                                        <Col>
-                                          <Button variant='success' onClick={this.die_address_write_bin}>Write Binary</Button>
+                                          <table className="table table-striped table-bordered" style={{width: '100%'}}>
+                                            <thead>
+                                                <th>Address</th>
+                                                <th>Field Name</th>
+                                                <th>Field Value</th>
+                                                <th>Max Value</th>
+                                            </thead>
+                                            <tbody style={{width: '100%','font-size':'85%'}}>
+                                                {this.state.register_fields.map((data) => (
+                                                    <tr>
+                                                        <td>{data.address}</td>
+                                                        <td>{data.field}</td>
+                                                        <td>{data.value}</td>
+                                                        <td>{data.max}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
                                         </Col>
                                       </Row>
-                                </Container>
+                                      <br/>
+                                    </Container>
+                                  </div>
+                                }
+                                <br/>
+                                <hr/>
+                                <OverlayTrigger
+                                  placement="auto"
+                                  overlay={this.renderTooltip("Display Register Control")}
+                                >
+                                  <Button size="sm" onClick={this.show_register_control}>
+                                    Toggle Display Register Slider Control
+                                  </Button>
+                                </OverlayTrigger>
+                                
+                                <br/>
+                                {this.state.register_control &&
+                                  <div>
+                                    <br/>
                                     <h5>Register Control</h5>
                                     {this.state.dut === "kfam" &&
                                       <div>
                                         <Row>
                                           <Col>
-                                            <Button variant='outline-primary' onClick={() => this.get_state(BUTTONS[20])}>Read Current State</Button>
-
+                                            <OverlayTrigger
+                                              placement="auto"
+                                              overlay={this.renderTooltip("Read KFAM AWV registers, Mixers, AGC, BSW settings")}
+                                            >
+                                              <Button variant='outline-primary' onClick={() => this.get_state(BUTTONS[20])}>Read Current State</Button>
+                                            </OverlayTrigger>
                                           </Col>
                                           <Col>
-                                            <Button onClick={this.saveSettingsToFile} variant='warning'>Save Current Settings to File</Button>
+                                            <OverlayTrigger
+                                              placement="auto"
+                                              overlay={this.renderTooltip("Read Mixer, AGC, BSW settings for both die and save to a file")}
+                                            >
+                                              <Button onClick={this.saveSettingsToFile} variant='warning'>Save Current Settings to File</Button>
+                                            </OverlayTrigger>
                                           </Col>
                                         </Row>
                                       </div>                                    
@@ -1971,19 +2199,49 @@ class DUT_GEN2 extends React.Component {
                                               ))}
                                               </Grid>
                                               <Grid item xs={5}>
-                                              <Button variant='outline-primary' onClick={this.applyAllPhases}>Apply All</Button>
-                                                <Button variant='warning' onClick={this.invertPhases}>
-                                                  Invert Phases
-                                                </Button>
-                                                <Button onClick={this.send_phases}>Send Phases</Button>
+                                                <OverlayTrigger
+                                                  placement="auto"
+                                                  overlay={this.renderTooltip("Apply RFC 0 Phases to All RFCs")}
+                                                >
+                                                  <Button variant='outline-primary' onClick={this.applyAllPhases}>Apply All</Button>
+                                                </OverlayTrigger>
+                                                <OverlayTrigger
+                                                  placement="auto"
+                                                  overlay={this.renderTooltip("Read AWV Phases and Invert by 180°")}
+                                                >
+                                                  <Button variant='warning' onClick={this.invertPhases}>
+                                                    Invert Phases
+                                                  </Button>
+                                                </OverlayTrigger>
+                                                <OverlayTrigger
+                                                  placement="auto"
+                                                  overlay={this.renderTooltip("Send AWV Phases to all RFCs")}
+                                                >
+                                                  <Button onClick={this.send_phases}>Send Phases</Button>
+                                                </OverlayTrigger>
                                               </Grid>
                                               <Grid item xs={5}>
-                                              <Button onClick={this.send_ge_vals}>Send GE Vals</Button>
-                                                <Button variant='outline-primary' onClick={this.applyAllGEGain}>Apply All</Button>
+                                                <OverlayTrigger
+                                                  placement="auto"
+                                                  overlay={this.renderTooltip("Send all GE Gain Values to all RFCs")}
+                                                >
+                                                  <Button onClick={this.send_ge_vals}>Send GE Vals</Button>
+                                                </OverlayTrigger>
+                                                <OverlayTrigger
+                                                  placement="auto"
+                                                  overlay={this.renderTooltip("Send RFC 0 GE Gain Value to all RFCs")}
+                                                >
+                                                  <Button variant='outline-primary' onClick={this.applyAllGEGain}>Apply All</Button>
+                                                </OverlayTrigger>
 
                                               </Grid>
                                               <Grid item xs={2}>
-                                              <Button variant='outline-primary' onClick={this.getCurrBeamPhases}>Read AWV Table</Button>
+                                                <OverlayTrigger
+                                                  placement="auto"
+                                                  overlay={this.renderTooltip("Read AWV Phases from current AWV Table Beam")}
+                                                >
+                                                  <Button variant='outline-primary' onClick={this.getCurrBeamPhases}>Read AWV Table</Button>
+                                                </OverlayTrigger>
                                               </Grid>
                                           </Grid>
                                         </Tab>
@@ -1992,23 +2250,33 @@ class DUT_GEN2 extends React.Component {
                                             <Box sx={{ width: '80%' }}>
                                             {TX_MIXER_SETTINGS.map(st => (
                                                   <div>
-                                                    <Typography id="track-false-slider" gutterBottom>
-                                                      {st.title}:
-                                                    </Typography>
-                                                    <Slider 
-                                                        name={st.id}
-                                                        // aria-label="rfc0_phase" 
-                                                        value={this.state[st.id]} 
-                                                        onChange={this.handleInputChange} 
-                                                        // step={11.25}
-                                                        marks
-                                                        min={st.min}
-                                                        max={st.max}
-                                                        valueLabelDisplay="auto"
-                                                    />
+                                                  {st.pol.includes(this.state.polarity) &&
+                                                      <div>
+                                                        <Typography id="track-false-slider" gutterBottom>
+                                                          {st.title}:
+                                                        </Typography>
+                                                        <Slider 
+                                                            name={st.id}
+                                                            // aria-label="rfc0_phase" 
+                                                            value={this.state[st.id]} 
+                                                            onChange={this.handleInputChange} 
+                                                            // step={11.25}
+                                                            marks
+                                                            min={st.min}
+                                                            max={st.max}
+                                                            valueLabelDisplay="auto"
+                                                        />
+                                                        
+                                                      </div>
+                                                  }
                                                   </div>
                                               ))}
-                                                <Button onClick={this.send_tx_mixer}>Send Settings</Button>
+                                                <OverlayTrigger
+                                                  placement="auto"
+                                                  overlay={this.renderTooltip("Send Mixer settings to both Die")}
+                                                >
+                                                  <Button onClick={this.send_tx_mixer}>Send Settings</Button>
+                                                </OverlayTrigger>
                                             </Box>
                                         </Tab>
                                         }
@@ -2016,8 +2284,10 @@ class DUT_GEN2 extends React.Component {
                                         <Tab eventKey="rfc_tx_agc" title="RFC TX AGC" >
                                           <Row>
                                             <Col>
-                                               <Box sx={{ width: '80%' }}>
-                                                {RFC_TX_AGC_SETTINGS.map(st => (
+                                              <Box sx={{ width: '80%' }}>
+                                              {RFC_TX_AGC_SETTINGS.map(st => (
+                                                <div>
+                                                {st.pol.includes(this.state.polarity) &&
                                                     <div>
                                                       <Typography id="track-false-slider" gutterBottom>
                                                         {st.title}:
@@ -2035,100 +2305,134 @@ class DUT_GEN2 extends React.Component {
                                                       />
                                                       
                                                     </div>
-                                                ))}
+                                                }
+                                                </div>
+                                              ))}
+                                                <OverlayTrigger
+                                                  placement="auto"
+                                                  overlay={this.renderTooltip("Send AGC settings to selected RFCs")}
+                                                >
                                                   <Button onClick={this.send_rfc_tx_agc}>Send Settings</Button>
-                                                </Box>
-                                                </Col>
-                                                <Col>
+                                                </OverlayTrigger>
+                                              </Box>
+                                            </Col>
+                                            <Col>
                                                   <h5>RFC Selection Grid</h5>
                                                     <Container style={{width: "250px"}}>
                                                         <ButtonToolbar>
                                                         {RFC_MAP.map(bt => (
                                                             <Button style={{width: "50px"}}
-                                                                variant={this.state.selectedRFCs.includes(bt.id) ? 'primary' : 'outline-primary'}
+                                                                variant={this.variablerfcscolor(bt.id)}
+                                                                checked={this.state.variableRFCs.includes(bt.id)}
                                                                 key={bt.id}
-                                                                onClick={() => this.handleRFC(bt)}
+                                                                onClick={() => this.handleVariableRFC(bt)}
+
                                                             >
                                                                 {this.state.polarity === "H" ? bt.h : bt.v}
                                                             </Button>
                                                         ))}
                                                         </ButtonToolbar>
                                                         <hr/>
-                                                        <Button variant='outline-success' onClick={this.selectAllRFCs}>Select All</Button>
-                                                        <Button variant='outline-danger' onClick={this.unSelectAllRFCs}>Unselect All</Button>
+                                                        
+                                                        <OverlayTrigger
+                                                          placement="auto"
+                                                          overlay={this.renderTooltip("Select ALL RFCs")}
+                                                        >
+                                                          <Button variant='outline-success' onClick={this.selectVariableRFCs}>Select All</Button>
+                                                        </OverlayTrigger>
+                                                        <OverlayTrigger
+                                                          placement="auto"
+                                                          overlay={this.renderTooltip("Unselect ALL RFCs")}
+                                                        >
+                                                          <Button variant='outline-danger' onClick={this.unSelectVariableRFCs}>Unselect All</Button>
+                                                        </OverlayTrigger>
                                                     </Container >
-                                                  </Col>
-                                                </Row>
+                                            </Col>
+                                          </Row>
                                         </Tab>
                                         }
-                                        {this.state.tx_rx === 'TX' &&
+                                        {/* {this.state.tx_rx === 'TX' && */}
                                         <Tab eventKey="rfc_bsw" title="RFC BSW" >
                                           <Row>
                                             <Col>
                                                <Box sx={{ width: '80%' }}>
                                                 {RFC_BSW_SETTINGS.map(st => (
                                                     <div>
-                                                      <Typography id="track-false-slider" gutterBottom>
-                                                        {st.title}:
-                                                      </Typography>
-                                                      <Slider 
-                                                          name={st.id}
-                                                          // aria-label="rfc0_phase" 
-                                                          value={this.state[st.id]} 
-                                                          onChange={this.handleInputChange} 
-                                                          // step={11.25}
-                                                          marks
-                                                          min={st.min}
-                                                          max={st.max}
-                                                          valueLabelDisplay="auto"
-                                                      />
-                                                      
+                                                      {st.pol.includes(this.state.polarity) &&
+                                                        <div>
+                                                          <Typography id="track-false-slider" gutterBottom>
+                                                            {st.title}:
+                                                          </Typography>
+                                                          <Slider 
+                                                              name={st.id}
+                                                              // aria-label="rfc0_phase" 
+                                                              value={this.state[st.id]} 
+                                                              onChange={this.handleInputChange} 
+                                                              // step={11.25}
+                                                              marks
+                                                              min={st.min}
+                                                              max={st.max}
+                                                              valueLabelDisplay="auto"
+                                                          />
+                                                          
+                                                        </div>
+                                                    }                                                      
                                                     </div>
                                                 ))}
-                                                  <Button onClick={this.send_rfc_bsw}>Send Settings</Button>
+                                                  <OverlayTrigger
+                                                    placement="auto"
+                                                    overlay={this.renderTooltip("Send BSW settings to selected RFCs")}
+                                                  >
+                                                    <Button onClick={this.send_rfc_bsw}>Send Settings</Button>
+                                                  </OverlayTrigger>
                                                 </Box>
-                                                </Col>
-                                                <Col>
-                                                  <h5>RFC Selection Grid</h5>
-                                                    <Container style={{width: "250px"}}>
-                                                        <ButtonToolbar>
-                                                        {RFC_MAP.map(bt => (
-                                                            <Button style={{width: "50px"}}
-                                                                variant={this.state.selectedRFCs.includes(bt.id) ? 'primary' : 'outline-primary'}
-                                                                key={bt.id}
-                                                                onClick={() => this.handleRFC(bt)}
-                                                            >
-                                                                {this.state.polarity === "H" ? bt.h : bt.v}
-                                                            </Button>
-                                                        ))}
-                                                        </ButtonToolbar>
-                                                        <hr/>
-                                                        <Button variant='outline-success' onClick={this.selectAllRFCs}>Select All</Button>
-                                                        <Button variant='outline-danger' onClick={this.unSelectAllRFCs}>Unselect All</Button>
-                                                    </Container >
-                                                  </Col>
-                                                </Row>
+                                            </Col>
+                                            <Col>
+                                              <h5>RFC Selection Grid</h5>
+                                                <Container style={{width: "250px"}}>
+                                                    <ButtonToolbar>
+                                                    {RFC_MAP.map(bt => (
+                                                        <Button style={{width: "50px"}}
+                                                            variant={this.state.selectedRFCs.includes(bt.id) ? 'primary' : 'outline-primary'}
+                                                            key={bt.id}
+                                                            onClick={() => this.handleRFC(bt)}
+                                                        >
+                                                            {this.state.polarity === "H" ? bt.h : bt.v}
+                                                        </Button>
+                                                    ))}
+                                                    </ButtonToolbar>
+                                                    <hr/>
+                                                    <Button variant='outline-success' onClick={this.selectAllRFCs}>Select All</Button>
+                                                    <Button variant='outline-danger' onClick={this.unSelectAllRFCs}>Unselect All</Button>
+                                                </Container >
+                                            </Col>
+                                          </Row>
                                         </Tab>
-                                        }
+                                        {/* } */}
                                         {this.state.tx_rx === 'RX' &&
                                         <Tab eventKey="rx_mixer_set" title="RX Mixer Set">
                                             <Box sx={{ width: '80%' }}>
                                             {RX_MIXER_SETTINGS.map(st => (
                                                   <div>
-                                                    <Typography id="track-false-slider" gutterBottom>
-                                                      {st.title}:
-                                                    </Typography>
-                                                    <Slider 
-                                                        name={st.id}
-                                                        // aria-label="rfc0_phase" 
-                                                        value={this.state[st.id]} 
-                                                        onChange={this.handleInputChange} 
-                                                        // step={11.25}
-                                                        marks
-                                                        min={st.min}
-                                                        max={st.max}
-                                                        valueLabelDisplay="auto"
-                                                    />
+                                                  {st.pol.includes(this.state.polarity) &&
+                                                      <div>
+                                                        <Typography id="track-false-slider" gutterBottom>
+                                                          {st.title}:
+                                                        </Typography>
+                                                        <Slider 
+                                                            name={st.id}
+                                                            // aria-label="rfc0_phase" 
+                                                            value={this.state[st.id]} 
+                                                            onChange={this.handleInputChange} 
+                                                            // step={11.25}
+                                                            marks
+                                                            min={st.min}
+                                                            max={st.max}
+                                                            valueLabelDisplay="auto"
+                                                        />
+                                                        
+                                                      </div>
+                                                  }
                                                   </div>
                                               ))}
                                                 <Button onClick={this.send_rx_mixer}>Send Settings</Button>
@@ -2140,20 +2444,25 @@ class DUT_GEN2 extends React.Component {
                                                <Box sx={{ width: '80%' }}>
                                                {RFC_RX_AGC_SETTINGS.map(st => (
                                                   <div>
-                                                    <Typography id="track-false-slider" gutterBottom>
-                                                      {st.title}:
-                                                    </Typography>
-                                                    <Slider 
-                                                        name={st.id}
-                                                        // aria-label="rfc0_phase" 
-                                                        value={this.state[st.id]} 
-                                                        onChange={this.handleInputChange} 
-                                                        // step={11.25}
-                                                        marks
-                                                        min={st.min}
-                                                        max={st.max}
-                                                        valueLabelDisplay="auto"
-                                                    />
+                                                    {st.pol.includes(this.state.polarity) &&
+                                                      <div>
+                                                        <Typography id="track-false-slider" gutterBottom>
+                                                          {st.title}:
+                                                        </Typography>
+                                                        <Slider 
+                                                            name={st.id}
+                                                            // aria-label="rfc0_phase" 
+                                                            value={this.state[st.id]} 
+                                                            onChange={this.handleInputChange} 
+                                                            // step={11.25}
+                                                            marks
+                                                            min={st.min}
+                                                            max={st.max}
+                                                            valueLabelDisplay="auto"
+                                                        />
+                                                        
+                                                      </div>
+                                                  }
                                                   </div>
                                               ))}
                                                 <Button onClick={this.send_rfc_rx_agc}>Send Settings</Button>
@@ -2175,9 +2484,14 @@ class DUT_GEN2 extends React.Component {
                             <Form>
                               <Row>
                                 <Col>
-                                  <Button size="sm" style={{width:'150px', resize:'none'}} onClick={this.loadAWV}>
-                                    Load Codebook
-                                  </Button>
+                                  <OverlayTrigger
+                                    placement="auto"
+                                    overlay={this.renderTooltip("Load Default Codebook or Uploaded Phases")}
+                                  >
+                                    <Button size="sm" style={{width:'150px', resize:'none'}} onClick={this.loadAWV}>
+                                      Load Codebook
+                                    </Button>
+                                  </OverlayTrigger>
                                 </Col>
                                 {/* <Col>
                                   <Button size="sm" style={{width:'150px', resize:'none'}} onClick={this.loadCal}>
@@ -2185,14 +2499,24 @@ class DUT_GEN2 extends React.Component {
                                   </Button>
                                 </Col> */}
                                 <Col>
-                                  <Button size="sm" style={{width:'150px', resize:'none'}} onClick={this.setAWV}>
-                                    Set AWV
-                                  </Button>
+                                  <OverlayTrigger
+                                    placement="auto"
+                                    overlay={this.renderTooltip("Set DUT to AWV Table Sweep Mode")}
+                                  >
+                                    <Button size="sm" style={{width:'150px', resize:'none'}} onClick={this.setAWV}>
+                                      Set AWV
+                                    </Button>
+                                  </OverlayTrigger>
                                 </Col>
                                 <Col>
-                                  <Button size="sm" style={{width:'150px', resize:'none'}} onClick={this.setDED}>
-                                    Set Dedicated
-                                  </Button>
+                                  <OverlayTrigger
+                                    placement="auto"
+                                    overlay={this.renderTooltip("Set DUT to AWV Dedicated Mode")}
+                                  >
+                                    <Button size="sm" style={{width:'150px', resize:'none'}} onClick={this.setDED}>
+                                      Set Dedicated
+                                    </Button>
+                                  </OverlayTrigger>
                                 </Col>
                               </Row>
                               <Row>
@@ -2210,32 +2534,48 @@ class DUT_GEN2 extends React.Component {
                                     <Form>
                                       <Row>
                                         <Col>
-                                        <br/>
-                                          <Button size="sm" style={{width:'150px', resize:'none'}} onClick={this.getCurrBeam}>
-                                            Get Current Beam
-                                          </Button>
+                                          <br/>
+                                          <OverlayTrigger
+                                            placement="auto"
+                                            overlay={this.renderTooltip("Get current beam pointer")}
+                                          >
+                                            <Button size="sm" style={{width:'80px', resize:'none'}} onClick={this.getCurrBeam}>
+                                              Get Current Beam
+                                            </Button>
+
+                                          </OverlayTrigger>
                                         </Col>
                                         <Col>
-                                            <Form.Label>Current Beam Index</Form.Label>
-                                            <Form.Control style={{width:'150px', resize:'none'}} name="currBeam" value={this.state.currBeam} placeholder="Current Beam ID" onChange={this.handleInputChange}/>
+                                            <Form.Label>Current Beam</Form.Label>
+                                            <Form.Control style={{width:'100px', resize:'none'}} name="currBeam" value={this.state.currBeam} placeholder="Current Beam ID" onChange={this.handleInputChange}/>
                                         </Col>
                                         <Col>
-                                        <br/>
-                                          <Button size="sm" style={{width:'150px', resize:'none'}} onClick={this.toggleBeam}>
-                                            Toggle Beam
-                                          </Button>
+                                          <br/>
+                                          <OverlayTrigger
+                                            placement="auto"
+                                            overlay={this.renderTooltip("Toggle beam by one increment")}
+                                          >
+                                            <Button size="sm" style={{width:'80px', resize:'none'}} onClick={this.toggleBeam}>
+                                              Toggle Beam
+                                            </Button>
+                                          </OverlayTrigger>
                                         </Col>
                                         
                                         <Col>
                                             <Form.Label>Beam of Choice</Form.Label>
-                                            <Form.Control style={{width:'150px', resize:'none'}} name="chosenBeam" value={this.state.chosenBeam} placeholder="Beam of Choice" onChange={this.handleInputChange}/>
+                                            <Form.Control style={{width:'100px', resize:'none'}} name="chosenBeam" value={this.state.chosenBeam} placeholder="Beam of Choice" onChange={this.handleInputChange}/>
                                         </Col>
 
                                         <Col>
-                                        <br/>
-                                          <Button size="sm" style={{width:'150px', resize:'none'}} onClick={this.selectBeam}>
-                                            Move to Beam
-                                          </Button>
+                                          <br/>
+                                          <OverlayTrigger
+                                            placement="auto"
+                                            overlay={this.renderTooltip("Move to a specific Beam")}
+                                          >
+                                            <Button size="sm" style={{width:'80px', resize:'none'}} onClick={this.selectBeam}>
+                                              Move to Beam
+                                            </Button>
+                                          </OverlayTrigger>
                                         </Col>
                                       </Row>
                                     </Form>
@@ -2403,23 +2743,7 @@ class DUT_GEN2 extends React.Component {
                                 
                             </Form>
                             <hr/>
-                            <br/>      
-
                             <br/>
-
-                            <h5>Switch Probe:</h5>
-                            <br/>
-                            <Form>
-                                <Button size="sm" style={{width:'100px', resize:'none'}} onClick={this.pol1}>
-                                  Pol1 ("V")
-                                </Button>
-                                {' '}
-                                <Button size="sm" style={{width:'100px', resize:'none'}} onClick={this.pol2}>
-                                  Pol2 ("H")
-                                </Button>
-                            </Form>
-                            <hr/>
-
                         </Container>
                       
                   </Col>

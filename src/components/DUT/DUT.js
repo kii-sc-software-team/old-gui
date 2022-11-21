@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // import InputGroup from 'react-bootstrap/InputGroup';
 import { Container, Form, Row, Col, ToggleButton, ToggleButtonGroup, Button, Tabs, Tab, ButtonToolbar } from 'react-bootstrap';
-import FileUpload_1p5 from '../Data/FileUpload_1p5';
+import FileUpload1p5 from '../Data/FileUpload_1p5';
 // import InputSlider from 'react-input-slider';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -1520,7 +1520,7 @@ class DUT extends React.Component {
                                 <Button size="sm" onClick={this.show_file_upload}>Toggle Display File Upload</Button>
                                 {this.state.file_upload &&
                                   <Container style={{borderColor: '#000000', borderWidth: '1px', borderStyle: 'solid'}}>
-                                    <FileUpload_1p5/>
+                                    <FileUpload1p5/>
                                   </Container>
                                 
                                 }
