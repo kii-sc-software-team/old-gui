@@ -7,40 +7,59 @@ import { Slider, Typography } from '@mui/material';
 
 const TX_VARIABLES = [
 
-    { id: 'pa', min: 1, max: 7, title: 'PA' },
-    { id: 'da', min: 1, max: 7, title: 'DA' },
-    { id: 'bd_vga', min: 1, max: 7, title: 'BD VGA Bias' },
+    { id: 'PA_Bias', min: 1, max: 7, title: 'PA' },
+    { id: 'DA_Bias', min: 1, max: 7, title: 'DA' },
+    { id: 'BDVGA_TX_Bias', min: 1, max: 7, title: 'BD VGA Bias' },
     // { id: 'bd_vga_cs', min: 1, max: 15, title: 'Uni-VGA CS' },
     { id: 'tx_d_ba', min: 1, max: 7, title: 'DisNBA' },
     // { id: 'tx_d_ba_cs', min: 1, max: 15, title: 'DisNBA CS' },
 
     // { id: 'tx_if_diff', min: 1, max: 3, title: 'TXIF' },
-    { id: 'lo_amp_1', min: 1, max: 7, title: 'LO Amp 1' },
-    { id: 'lo_amp_2', min: 1, max: 7, title: 'LO Amp 2' },
+    { id: 'LO_Amp_1', min: 1, max: 7, title: 'LO Amp 1' },
+    { id: 'LO_Amp_2', min: 1, max: 7, title: 'LO Amp 2' },
     // { id: 'txmx', min: 1, max: 3, title: 'TXMX' },
-    { id: 'if_vga_n_ba', min: 1, max: 7, title: 'IF VGA N Bias' },
-    { id: 'if_vga_s_ba', min: 1, max: 7, title: 'IF VGA S Bias' },
+    { id: 'IF_VGA_Bias_N', min: 1, max: 7, title: 'IF VGA N Bias' },
+    { id: 'IF_VGA_Bias_S', min: 1, max: 7, title: 'IF VGA S Bias' },
 
     // { id: 'if_lo_driver_bias', min: 1, max: 7, title: 'IF LO Driver Bias' }
 ]
 
-  
-  const RX_VARIABLES = [
-    { id: 'lna1', min: 1, max: 7, title: 'LNA1' },
-    { id: 'lna2', min: 1, max: 7, title: 'LNA2' },
-    { id: 'lna3', min: 1, max: 7, title: 'LNA3' },
-    // { id: 'rsv_rfc', min: 1, max: 15, title: 'RSV RFC'},
-    { id: 'rx_d_ba', min: 1, max: 7, title: 'DisNBA' },
-    { id: 'rx_d_ba_cs', min: 1, max: 15, title: 'DisNBA CS' },
 
-    { id: 'rxrf', min: 1, max: 3, title: 'RX RF' },
-    // { id: 'rxrf_cs', min: 1, max: 15, title: 'RX RF CS' },
-    { id: 'rxmx', min: 1, max: 3, title: 'RX MX' },
-    { id: 'rx_if_diff', min: 1, max: 3, title: 'RX IF Diff'},
+const RX_VARIABLES = [
+{ id: 'lna1', min: 1, max: 7, title: 'LNA1' },
+{ id: 'lna2', min: 1, max: 7, title: 'LNA2' },
+{ id: 'lna3', min: 1, max: 7, title: 'LNA3' },
+// { id: 'rsv_rfc', min: 1, max: 15, title: 'RSV RFC'},
+{ id: 'rx_d_ba', min: 1, max: 7, title: 'DisNBA' },
+{ id: 'rx_d_ba_cs', min: 1, max: 15, title: 'DisNBA CS' },
 
-    { id: 'if_lo_driver_bias', min: 1, max: 7, title: 'IF LO Driver Bias' }
-  ]
+{ id: 'rxrf', min: 1, max: 3, title: 'RX RF' },
+// { id: 'rxrf_cs', min: 1, max: 15, title: 'RX RF CS' },
+{ id: 'rxmx', min: 1, max: 3, title: 'RX MX' },
+{ id: 'rx_if_diff', min: 1, max: 3, title: 'RX IF Diff'},
 
+{ id: 'if_lo_driver_bias', min: 1, max: 7, title: 'IF LO Driver Bias' }
+]
+
+const TX_MIXER_SETTINGS = [
+    { id: 'LO_Amp_1', min: 0, max: 7, title: 'LO Amp 1', pol: ['V','H'] },
+    { id: 'LO_Amp_2', min: 0, max: 7, title: 'LO Amp 2', pol: ['V','H'] },
+    { id: 'Mixer_S', min: 0, max: 7, title: 'Mixer S', pol: ['H'] },
+    { id: 'Mixer_N', min: 0, max: 7, title: 'Mixer N', pol: ['V'] },
+    { id: 'IF_VGA_Bias_S', min: 0, max: 7, title: 'IF VGA S Bias', pol: ['H'] },
+    { id: 'IF_VGA_Bias_N', min: 0, max: 7, title: 'IF VGA N Bias', pol: ['V'] },
+    { id: 'IF_VGA_RX_S_CS', min: 0, max: 7, title: 'IF VGA S CS', pol: ['H'] },
+    { id: 'IF_VGA_RX_N_CS', min: 0, max: 7, title: 'IF VGA N CS', pol: ['V'] }
+]
+
+
+const RFC_TX_AGC_SETTINGS = [
+    { id: 'PA_Bias', min: 0, max: 7, title: 'PA', pol: ['V','H'] },
+    { id: 'DA_Bias', min: 0, max: 7, title: 'DA', pol: ['V','H'] },
+    { id: 'BDVGA_TX_Bias', min: 0, max: 7, title: 'BD VGA Bias', pol: ['V','H'] },
+    { id: 'DisN_BA_TX_S_Bias', min: 0, max: 7, title: 'DisNBA S Bias', pol: ['H'] },
+    { id: 'DisN_BA_TX_N_Bias', min: 0, max: 7, title: 'DisNBA N Bias', pol: ['V'] }
+]
 
 class VariableSweepGen2 extends React.Component {
 
@@ -99,18 +118,18 @@ class VariableSweepGen2 extends React.Component {
 
 
 
-            pa: [1,7],
-            da: [1,7],
-            if_vga_n_ba: [1,7],
-            if_vga_s_ba: [1,7],
-            lo_amp_1: [1,7],
-            lo_amp_2: [1,7],
-            // txmx: [1,3],
-            bd_vga: [1,7],
-            mx_s: [1,7],
-            tx_d_ba: [1,7],
-            mx_n: [1,7],
-            
+            PA_Bias: [1,7],
+            DA_Bias: [1,7],
+            BDVGA_TX_Bias: [1,7],
+            DisN_BA_TX_S_Bias: [1,7],
+            DisN_BA_TX_N_Bias: [1,7],
+
+            LO_Amp_1: [1,7],
+            LO_Amp_2: [1,7],
+            Mixer_S: [1,7],
+            Mixer_N: [1,7],
+            IF_VGA_Bias_N: [1,7],
+            IF_VGA_Bias_S: [1,7],            
 
 
 
@@ -189,18 +208,19 @@ class VariableSweepGen2 extends React.Component {
     sweepVarsTX = e => {
         e.preventDefault();
         let tx_settings = { 
-            'TX_agc_PA': this.state.pa, 
-            'TX_agc_DA': this.state.da, 
-            'TX_agc_BD_VGA_Bias': this.state.bd_vga, 
+            'PA_Bias': this.state.PA_Bias, 
+            'DA_Bias': this.state.DA_Bias, 
+            'BDVGA_TX_Bias': this.state.BDVGA_TX_Bias, 
             // 'bd_vga_cs': this.state.bd_vga_cs, 
-            'TX_agc_DBa_Bias': this.state.tx_d_ba, 
+            'DisN_BA_TX_S_Bias': this.state.DisN_BA_TX_S_Bias, 
+            'DisN_BA_TX_N_Bias': this.state.DisN_BA_TX_N_Bias, 
             // 'tx_d_ba_cs': this.state.tx_d_ba_cs, 
-            'IF_VGA_S_Bias': this.state.if_vga_s_ba,
-            'IF_VGA_N_Bias': this.state.if_vga_n_ba, 
-            'LO_Amp_1': this.state.lo_amp_1, 
-            'LO_Amp_2': this.state.lo_amp_2,
-            'Mixer_S': this.state.mx_s, 
-            'Mixer_N': this.state.mx_n
+            'IF_VGA_Bias_S': this.state.IF_VGA_Bias_S,
+            'IF_VGA_Bias_N': this.state.IF_VGA_Bias_N, 
+            'LO_Amp_1': this.state.LO_Amp_1, 
+            'LO_Amp_2': this.state.LO_Amp_2,
+            'Mixer_S': this.state.Mixer_S, 
+            'Mixer_N': this.state.Mixer_N
         }
         let queryObj = tx_settings
         
@@ -301,14 +321,11 @@ class VariableSweepGen2 extends React.Component {
                                                     <Col md>
                                                         <Form.Label style={{float:'left'}}>Range:</Form.Label>                                                    
                                                     </Col>
-                                                    {/* <Col md>
-                                                        <Form.Label style={{float:'left'}}>Upper Limit:</Form.Label>                                                   
-                                                    </Col> */}
                                                 </Row>
                                             </Form.Group>
                                             {this.state.trx_mode === 'TX' &&
                                                 <div>
-                                                    {TX_VARIABLES.map(st => (
+                                                    {RFC_TX_AGC_SETTINGS.map(st => (
                                                         <div>
                                                             <Row>
                                                                 <Col>
@@ -319,10 +336,8 @@ class VariableSweepGen2 extends React.Component {
                                                                 <Col>
                                                                     <Slider 
                                                                         name={st.id}
-                                                                        // aria-label="rfc0_phase" 
                                                                         value={this.state[st.id]} 
                                                                         onChange={this.handleInputChange} 
-                                                                        // step={11.25}
                                                                         marks
                                                                         min={st.min}
                                                                         max={st.max}

@@ -397,8 +397,8 @@ const TX_MIXER_SETTINGS = [
   { id: 'Mixer_N', min: 0, max: 7, title: 'Mixer N', pol: ['V'] },
   { id: 'IF_VGA_Bias_S', min: 0, max: 7, title: 'IF VGA S Bias', pol: ['H'] },
   { id: 'IF_VGA_Bias_N', min: 0, max: 7, title: 'IF VGA N Bias', pol: ['V'] },
-  { id: 'IF_VGA_RX_S_CS', min: 0, max: 7, title: 'IF VGA S CS', pol: ['H'] },
-  { id: 'IF_VGA_RX_N_CS', min: 0, max: 7, title: 'IF VGA N CS', pol: ['V'] }
+  { id: 'IF_VGA_TX_S_CS', min: 0, max: 7, title: 'IF VGA S CS', pol: ['H'] },
+  { id: 'IF_VGA_TX_N_CS', min: 0, max: 7, title: 'IF VGA N CS', pol: ['V'] }
 ]
 
 const RX_MIXER_SETTINGS = [
@@ -445,7 +445,7 @@ class DUT_GEN2 extends React.Component {
         num_beams: 0,
         chosenBeam: '',
         beam_toggle: 0,
-        dut: 'kfam',
+        dut: '',
         dut_sn: '',
         evb_sn: '',
         message: '',
@@ -1560,7 +1560,7 @@ class DUT_GEN2 extends React.Component {
                                             <Form.Label>Select DUT:</Form.Label>
                                             <select style={{width: "150px", resize:'none', float: 'right'}} class="form-select" name="dut" aria-label="Default select example"  onChange={this.handleInputChange}>
                                                 <option>Select DUT</option>
-                                                <option selected="kfam">KFAM</option>
+                                                <option selected value="kfam">KFAM</option>
                                                 <option value="paam">PAAM</option>
                                             </select>
                                         </Form.Group>
