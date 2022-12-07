@@ -2,7 +2,9 @@ import axios from 'axios';
 
 import React from 'react';
 
-class FileUpload_1p5 extends React.Component {
+
+class FileUpload1p5 extends React.Component {
+
 
     // constructor(props) {
     //     super();
@@ -173,4 +175,6 @@ class FileUpload_1p5 extends React.Component {
 	}
 }
 
-export default FileUpload_1p5;
+
+export default FileUpload1p5;
+
