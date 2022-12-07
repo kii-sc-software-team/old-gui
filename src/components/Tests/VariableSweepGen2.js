@@ -107,14 +107,14 @@ class VariableSweepGen2 extends React.Component {
 
             pop_size: '50',
             n_offsprings: '25',
-            sampling: '',
-            crossover: '',
-            x_prob: '',
-            x_eta: '',
-            mutation: '',
-            m_eta: '',
+            sampling: 'int_random',
+            crossover: 'int_sbx',
+            x_prob: '0.5',
+            x_eta: '15',
+            mutation: 'int_pm',
+            m_eta: '20',
             elim_duplicates: 'True',
-            n_gen: '',
+            n_gen: '5',
 
             group: 'AGC',
 
@@ -623,15 +623,15 @@ class VariableSweepGen2 extends React.Component {
                                             <Form.Group>
                                                 <Form.Label style={{textAlign: "left"}}>Sampling </Form.Label>
                                                 <select style={{width: '200px', float: 'right'}} class="form-select" name="sampling" aria-label="Default select example"  onChange={this.handleInputChange}>
-                                                    <option selected>Sampling Selection</option>
-                                                    <option value="int_random">Random</option>
+                                                    <option>Sampling Selection</option>
+                                                    <option selected value="int_random">Random</option>
                                                 </select>
                                             </Form.Group>
                                             <Form.Group>
                                                 <Form.Label style={{textAlign: "left"}}>Crossover Type </Form.Label>
                                                 <select style={{width: '200px', float: 'right'}} class="form-select" name="crossover" aria-label="Default select example"  onChange={this.handleInputChange}>
-                                                    <option selected>Crossover Type</option>
-                                                    <option value="int_sbx">SBX</option>
+                                                    <option>Crossover Type</option>
+                                                    <option selected value="int_sbx">SBX</option>
                                                 </select>
                                             </Form.Group>
                                             <Form.Group className="mb-3" controlId="rfcs">
@@ -646,8 +646,8 @@ class VariableSweepGen2 extends React.Component {
                                             <Form.Group>
                                                 <Form.Label style={{textAlign: "left"}}>Mutation Type </Form.Label>
                                                 <select style={{width: '200px', float: 'right'}} class="form-select" name="mutation" aria-label="Default select example"  onChange={this.handleInputChange}>
-                                                    <option selected>Mutation Type</option>
-                                                    <option value="int_pm">PM</option>
+                                                    <option>Mutation Type</option>
+                                                    <option selected value="int_pm">PM</option>
                                                 </select>
                                             </Form.Group>
                                             <Form.Group className="mb-3" controlId="rfcs">
@@ -656,8 +656,8 @@ class VariableSweepGen2 extends React.Component {
                                             </Form.Group>
                                             
                                             <Form.Group>
-                                                <Form.Label>Eliminate Duplicates</Form.Label>
-                                                <ToggleButtonGroup type="radio" name="elim_duplicates">
+                                                <Form.Label>Eliminate Duplicates:</Form.Label>
+                                                <ToggleButtonGroup type="radio" name="elim_duplicates" defaultValue={"True"} style={{width:'200px', resize:'auto', float: 'right'}}>
                                                     <ToggleButton variant="outline-dark" id="elim_dup" value={"True"} checked={this.state.checked === "True"} onChange={this.handleInputChange}>
                                                     True
                                                     </ToggleButton>
