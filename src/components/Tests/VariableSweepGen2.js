@@ -89,7 +89,7 @@ class VariableSweepGen2 extends React.Component {
             if_freq: '3',
             lo_power: '0',
 
-            trx_mode: '',
+            trx_mode: 'TX',
             if_3_7: '',
 
             sweep_method: '',
@@ -153,7 +153,7 @@ class VariableSweepGen2 extends React.Component {
             lo_step: 1,
             lo_range: [-5,5],
 
-            power_obj: '',
+            power_obj: 'power_out',
             evm_target: 3
 
         }
@@ -301,7 +301,7 @@ class VariableSweepGen2 extends React.Component {
                                     <Col>
                                         <Form.Group>
                                             <Form.Label>TRX Mode</Form.Label>
-                                            <ToggleButtonGroup type="radio" name="trx_mode" style={{float: "right"}}>
+                                            <ToggleButtonGroup type="radio" name="trx_mode" style={{float: "right"}} defaultValue={"TX"}>
                                                 <ToggleButton variant="outline-dark" id="rx" value={"RX"} checked={this.state.checked === "RX"} onChange={this.handleInputChange}>
                                                 RX
                                                 </ToggleButton>
@@ -677,9 +677,9 @@ class VariableSweepGen2 extends React.Component {
                                             <Form.Group>
                                                 <Form.Label style={{textAlign: "left"}}>Power Obj. </Form.Label>
                                                 <select style={{width: '200px', float: 'right'}} class="form-select" name="power_obj" aria-label="Default select example"  onChange={this.handleInputChange}>
-                                                    <option selected>Select Power Optimization</option>
+                                                    <option >Select Power Optimization</option>
                                                     <option value="power_in">Power In</option>
-                                                    <option value="power_out">Power Out</option>
+                                                    <option selected value="power_out">Power Out</option>
                                                 </select>
                                             </Form.Group>
                                     
