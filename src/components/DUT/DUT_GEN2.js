@@ -402,6 +402,7 @@ const RX_MIXER_SETTINGS = [
   { id: 'IF_VGA_Bias_N', min: 0, max: 7, title: 'IF VGA N Bias', pol: ['V'] },
   { id: 'IF_VGA_RX_S_CS', min: 0, max: 7, title: 'IF VGA S CS', pol: ['H'] },
   { id: 'IF_VGA_RX_N_CS', min: 0, max: 7, title: 'IF VGA N CS', pol: ['V'] }
+
 ]
 
 const RFC_RX_AGC_SETTINGS = [
@@ -1688,7 +1689,9 @@ class DUT_GEN2 extends React.Component {
                                 </OverlayTrigger>
                                 {this.state.file_upload &&
                                   <Container style={{borderColor: '#000000', borderWidth: '1px', borderStyle: 'solid'}}>
+
                                     <FileUpload2/>
+
                                   </Container>
                                 
                                 }

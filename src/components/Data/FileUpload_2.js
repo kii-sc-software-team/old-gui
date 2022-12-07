@@ -4,6 +4,7 @@ import React from 'react';
 
 class FileUpload2 extends React.Component {
 
+
     // constructor(props) {
     //     super();
     //     this.state = {
@@ -174,3 +175,4 @@ class FileUpload2 extends React.Component {
 }
 
 export default FileUpload2;
+
