@@ -331,7 +331,7 @@ class Instrument extends React.Component {
                                                 <option value="1">Rohde-Schwarz SMW200A (ETS)</option>
                                                 <option value="2">Rohde-Schwarz SMW200A #2 (CalBox)</option>
                                                 <option value="3">Rohde-Schwarz SMW200A #3 (Tent)</option>
-                                                <option value="4">Rohde-Schwarz SMW200A #4 (Loaner)</option>
+                                                <option value="4">Rohde-Schwarz SMW200A #4 (CATR)</option>
                                                 {/* <option value="2">Two</option> */}
                                             </select>
                                             {this.state.if1_sg !== "0" &&
@@ -371,9 +371,9 @@ class Instrument extends React.Component {
                                             <select class="form-select form-select" name='lo1_sg' aria-label=".form-select-sm example" onChange={this.handleInputChange}>
                                                 <option selected>Select LO1 SG</option>
                                                 <option value="1">Keysight E8257D (ETS)</option>
-                                                <option value="2">Rohde-Schwarz SMW200A #2 (CalBox)</option>
+                                                <option value="2">Keysight E8257D (CalBox)</option>
                                                 <option value="3">Rohde-Schwarz SMW200A #3 (Tent)</option>
-                                                <option value="4">Rohde-Schwarz SMW200A #4 (Loaner)</option>
+                                                <option value="4">Rohde-Schwarz SMW200A #4 (CATR)</option>
                                             </select>
                                             {this.state.lo1_sg !== "0" &&
                                                 <Form.Group>
@@ -459,7 +459,7 @@ class Instrument extends React.Component {
                                             <select class="form-select form-select" name='lo2_sg' aria-label=".form-select-sm example" onChange={this.handleInputChange}>
                                                 <option selected>Select LO2 SG</option>
                                                 <option value="1">Keysight E8257D (ETS)</option>
-                                                <option value="2">Rohde-Schwarz SMW200A #2 (CalBox)</option>
+                                                <option value="2">Keysight E8257D #2 (CalBox)</option>
                                                 <option value="3">Rohde-Schwarz SMW200A #3 (Tent)</option>
                                                 <option value="4">Rohde-Schwarz SMW200A #4 (Loaner)</option>
                                             </select>
@@ -506,6 +506,7 @@ class Instrument extends React.Component {
                                                 <option value="1">Rohde-Schwarz FSW #1 (ETS)</option>
                                                 <option value="2">Rohde-Schwarz FSW #2 (CalBox)</option>
                                                 <option value="3">Rohde-Schwarz FSW #3 (Tent)</option>
+                                                <option value="4">Rohde-Schwarz FSW #4 (CATR)</option>
                                                 {/* <option value="2">Two</option> */}
                                             </select>
                                             {this.state.sa !== "0" &&
