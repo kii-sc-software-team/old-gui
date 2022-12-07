@@ -25,7 +25,7 @@ export default class NavbarTop extends React.Component {
                                 <Nav.Link as={Link} to="/Home">Home</Nav.Link>
                                 {/* <Nav.Link as={Link} to="/KFAM">KFAM</Nav.Link> */}
                                 <NavDropdown title="DUT"  id="basic-nav-dropdown">
-                                    <NavDropdown.Item as={Link} to="/DUT/DUT">DUT</NavDropdown.Item>
+                                    {/* <NavDropdown.Item as={Link} to="/DUT/DUT">DUT</NavDropdown.Item> */}
                                     <NavDropdown.Item as={Link} to="/DUT/DUT_Gen2">DUT Gen 2</NavDropdown.Item>
                                 </NavDropdown>
                                 <Nav.Link as={Link} to="/Equipment">Equipment</Nav.Link>
