@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // import InputGroup from 'react-bootstrap/InputGroup';
 import { Container, Form, Row, Col, ToggleButton, ToggleButtonGroup, Button, Tabs, Tab, ButtonToolbar } from 'react-bootstrap';
-import FileUpload from '../Data/FileUpload';
+import FileUpload1p5 from '../Data/FileUpload_1p5';
 // import InputSlider from 'react-input-slider';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -1019,6 +1019,12 @@ class DUT extends React.Component {
       // this.get_state(button).then(() => console.log('Test', button.id));
     }
 
+    saveSettingsToFile = e => {
+      e.preventDefault();
+      this.sendMove(`save_settings_to_file/${this.state.selectedRows}+${this.state.selectedCols}`);
+
+    }
+
     async get_state(button) {
       var url = ``;
       if (this.state.dut === "kfam") {
@@ -1514,7 +1520,7 @@ class DUT extends React.Component {
                                 <Button size="sm" onClick={this.show_file_upload}>Toggle Display File Upload</Button>
                                 {this.state.file_upload &&
                                   <Container style={{borderColor: '#000000', borderWidth: '1px', borderStyle: 'solid'}}>
-                                    <FileUpload/>
+                                    <FileUpload1p5/>
                                   </Container>
                                 
                                 }
@@ -1647,6 +1653,7 @@ class DUT extends React.Component {
 
                                               </Container>
                                             <Button onClick={this.selectModule}>Select Modules</Button>
+                                            
                                 
                                           </Col>
                                           
@@ -1671,17 +1678,20 @@ class DUT extends React.Component {
                                           </Container >
                                           </Col>
                                           <Col>
-                                          <Form.Group>
-                                              <Form.Label>Compensate</Form.Label>
-                                              <ToggleButtonGroup type="radio" name="compensate" defaultValue={"True"}>
-                                                  <ToggleButton variant="outline-dark" id="compensate_true" value={"True"} checked={this.state.checked === "True"} onChange={this.handleInputChange}>
-                                                      True
-                                                  </ToggleButton>
-                                                  <ToggleButton variant="outline-dark" id="compensate_false" value={"False"} checked={this.state.checked === "False"} onChange={this.handleInputChange}>
-                                                      False
-                                                  </ToggleButton>
-                                              </ToggleButtonGroup>
-                                          </Form.Group>
+                                            <Form.Group>
+                                                <Form.Label>Compensate</Form.Label>
+                                                <ToggleButtonGroup type="radio" name="compensate" defaultValue={"True"}>
+                                                    <ToggleButton variant="outline-dark" id="compensate_true" value={"True"} checked={this.state.checked === "True"} onChange={this.handleInputChange}>
+                                                        True
+                                                    </ToggleButton>
+                                                    <ToggleButton variant="outline-dark" id="compensate_false" value={"False"} checked={this.state.checked === "False"} onChange={this.handleInputChange}>
+                                                        False
+                                                    </ToggleButton>
+                                                </ToggleButtonGroup>
+                                            </Form.Group>
+                                          </Col>
+                                          <Col>
+                                            <Button onClick={this.saveSettingsToFile} variant='warning'>Save Settings to File</Button>
                                           </Col>
                                         </Row>
                                         <Row style={{float: 'right'}}>

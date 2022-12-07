@@ -25,7 +25,7 @@ class TestsNav extends React.Component {
                             <Nav.Link href="/Tests/PowerEVM">Power/EVM</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link href="/Tests/VariableSweep">Variable Sweep</Nav.Link>
+                            <Nav.Link href="/Tests/VariableSweepGen2">Variable Sweep</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
                             <Nav.Link href="/Tests/FreqSweep">Frequency Sweep</Nav.Link>

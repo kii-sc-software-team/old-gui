@@ -13,7 +13,7 @@ import Equipment from './components/Equipment/Equipment';
 // import PositionerParameters from './components/Equipment/Parameters';
 import Tests from './components/Tests/Tests';
 import PowerBI from './components/Data/PowerBI';
-import DUT from './components/DUT/DUT';
+// import DUT from './components/DUT/DUT';
 import Parent from './Parent';
 import Map from './Map';
 import DUT_GEN2 from './components/DUT/DUT_GEN2';
@@ -37,9 +37,9 @@ class App extends React.Component {
           <Route path="/Home">
             <Home />
           </Route>
-          <Route path="/DUT/DUT">
+          {/* <Route path="/DUT/DUT">
             <DUT />
-          </Route>
+          </Route> */}
           <Route path="/DUT/DUT_GEN2">
             <DUT_GEN2 />
           </Route>
