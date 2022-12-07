@@ -48,8 +48,8 @@ const TX_MIXER_SETTINGS = [
     { id: 'Mixer_N', min: 0, max: 7, title: 'Mixer N', pol: ['V'] },
     { id: 'IF_VGA_Bias_S', min: 0, max: 7, title: 'IF VGA S Bias', pol: ['H'] },
     { id: 'IF_VGA_Bias_N', min: 0, max: 7, title: 'IF VGA N Bias', pol: ['V'] },
-    { id: 'IF_VGA_RX_S_CS', min: 0, max: 7, title: 'IF VGA S CS', pol: ['H'] },
-    { id: 'IF_VGA_RX_N_CS', min: 0, max: 7, title: 'IF VGA N CS', pol: ['V'] }
+    { id: 'IF_VGA_TX_S_CS', min: 0, max: 7, title: 'IF VGA S CS', pol: ['H'] },
+    { id: 'IF_VGA_TX_N_CS', min: 0, max: 7, title: 'IF VGA N CS', pol: ['V'] }
 ]
 
 
@@ -116,6 +116,7 @@ class VariableSweepGen2 extends React.Component {
             elim_duplicates: 'True',
             n_gen: '',
 
+            group: 'MIXER',
 
 
             PA_Bias: [1,7],
@@ -207,20 +208,27 @@ class VariableSweepGen2 extends React.Component {
 
     sweepVarsTX = e => {
         e.preventDefault();
-        let tx_settings = { 
-            'PA_Bias': this.state.PA_Bias, 
-            'DA_Bias': this.state.DA_Bias, 
-            'BDVGA_TX_Bias': this.state.BDVGA_TX_Bias, 
-            // 'bd_vga_cs': this.state.bd_vga_cs, 
-            'DisN_BA_TX_S_Bias': this.state.DisN_BA_TX_S_Bias, 
-            'DisN_BA_TX_N_Bias': this.state.DisN_BA_TX_N_Bias, 
-            // 'tx_d_ba_cs': this.state.tx_d_ba_cs, 
-            'IF_VGA_Bias_S': this.state.IF_VGA_Bias_S,
-            'IF_VGA_Bias_N': this.state.IF_VGA_Bias_N, 
-            'LO_Amp_1': this.state.LO_Amp_1, 
-            'LO_Amp_2': this.state.LO_Amp_2,
-            'Mixer_S': this.state.Mixer_S, 
-            'Mixer_N': this.state.Mixer_N
+        let tx_settings = {};
+        if (this.state.group === 'MIXER') {
+            tx_settings = {
+                'IF_VGA_Bias_S': this.state.IF_VGA_Bias_S,
+                'IF_VGA_Bias_N': this.state.IF_VGA_Bias_N, 
+                'LO_Amp_1': this.state.LO_Amp_1, 
+                'LO_Amp_2': this.state.LO_Amp_2,
+                'Mixer_S': this.state.Mixer_S, 
+                'Mixer_N': this.state.Mixer_N
+            }
+        }
+        if (this.state.group === 'AGC') {
+            tx_settings = {
+                'PA_Bias': this.state.PA_Bias, 
+                'DA_Bias': this.state.DA_Bias, 
+                'BDVGA_TX_Bias': this.state.BDVGA_TX_Bias, 
+                // 'bd_vga_cs': this.state.bd_vga_cs, 
+                'DisN_BA_TX_S_Bias': this.state.DisN_BA_TX_S_Bias, 
+                'DisN_BA_TX_N_Bias': this.state.DisN_BA_TX_N_Bias, 
+                // 'tx_d_ba_cs': this.state.tx_d_ba_cs,
+            }
         }
         let queryObj = tx_settings
         
@@ -289,7 +297,7 @@ class VariableSweepGen2 extends React.Component {
                             <h3>Variable Sweep</h3>
                             <br/>
                             <Form>
-                            <Form.Group>
+                                <Form.Group>
                                     <Form.Label>TRX Mode</Form.Label>
                                     <ToggleButtonGroup type="radio" name="trx_mode">
                                         <ToggleButton variant="outline-dark" id="rx" value={"RX"} checked={this.state.checked === "RX"} onChange={this.handleInputChange}>
@@ -297,6 +305,17 @@ class VariableSweepGen2 extends React.Component {
                                         </ToggleButton>
                                         <ToggleButton variant="outline-dark" id="tx" value={"TX"} checked={this.state.checked === "TX"} onChange={this.handleInputChange}>
                                         TX
+                                        </ToggleButton>
+                                    </ToggleButtonGroup>
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Label>Group</Form.Label>
+                                    <ToggleButtonGroup type="radio" name="group">
+                                        <ToggleButton variant="outline-dark" id="mixer" value={"MIXER"} checked={this.state.checked === "MIXER"} onChange={this.handleInputChange}>
+                                        MIXER
+                                        </ToggleButton>
+                                        <ToggleButton variant="outline-dark" id="agc" value={"AGC"} checked={this.state.checked === "AGC"} onChange={this.handleInputChange}>
+                                        AGC
                                         </ToggleButton>
                                     </ToggleButtonGroup>
                                 </Form.Group>
@@ -325,30 +344,59 @@ class VariableSweepGen2 extends React.Component {
                                             </Form.Group>
                                             {this.state.trx_mode === 'TX' &&
                                                 <div>
-                                                    {RFC_TX_AGC_SETTINGS.map(st => (
+                                                    {this.state.group === 'MIXER' &&
                                                         <div>
-                                                            <Row>
-                                                                <Col>
-                                                                    <Typography id="track-false-slider" gutterBottom>
-                                                                        {st.title}:
-                                                                    </Typography>
-                                                                </Col>
-                                                                <Col>
-                                                                    <Slider 
-                                                                        name={st.id}
-                                                                        value={this.state[st.id]} 
-                                                                        onChange={this.handleInputChange} 
-                                                                        marks
-                                                                        min={st.min}
-                                                                        max={st.max}
-                                                                        valueLabelDisplay="auto"
-                                                                    />
-                                                                </Col>
-                                                            </Row>
-                                                            
+                                                            {TX_MIXER_SETTINGS.map(st => (
+                                                                <div>
+                                                                    <Row>
+                                                                        <Col>
+                                                                            <Typography id="track-false-slider" gutterBottom>
+                                                                                {st.title}:
+                                                                            </Typography>
+                                                                        </Col>
+                                                                        <Col>
+                                                                            <Slider 
+                                                                                name={st.id}
+                                                                                value={this.state[st.id]} 
+                                                                                onChange={this.handleInputChange} 
+                                                                                marks
+                                                                                min={st.min}
+                                                                                max={st.max}
+                                                                                valueLabelDisplay="auto"
+                                                                            />
+                                                                        </Col>
+                                                                    </Row>                                                                    
+                                                                </div>
+                                                            ))}
                                                         </div>
-                                                    ))}
-                                                    
+                                                    }
+                                                    {this.state.group === 'AGC' &&
+                                                        <div>
+                                                            {RFC_TX_AGC_SETTINGS.map(st => (
+                                                                <div>
+                                                                    <Row>
+                                                                        <Col>
+                                                                            <Typography id="track-false-slider" gutterBottom>
+                                                                                {st.title}:
+                                                                            </Typography>
+                                                                        </Col>
+                                                                        <Col>
+                                                                            <Slider 
+                                                                                name={st.id}
+                                                                                value={this.state[st.id]} 
+                                                                                onChange={this.handleInputChange} 
+                                                                                marks
+                                                                                min={st.min}
+                                                                                max={st.max}
+                                                                                valueLabelDisplay="auto"
+                                                                            />
+                                                                        </Col>
+                                                                    </Row>
+                                                                    
+                                                                </div>
+                                                            ))}
+                                                        </div>    
+                                                    }                                                    
                                                     <br/>
                                                     <Button onClick={this.sweepVarsTX}>Set Variables</Button>
                                                 </div>
@@ -739,7 +787,7 @@ class VariableSweepGen2 extends React.Component {
                                                         // step={11.25}
                                                         marks
                                                         min={-40}
-                                                        max={0}
+                                                        max={15}
                                                         valueLabelDisplay="auto"
                                                     />
                                                 </Col>
