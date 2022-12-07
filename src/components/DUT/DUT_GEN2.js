@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 // import InputGroup from 'react-bootstrap/InputGroup';
-import { Container, Form, Row, Col, ToggleButton, ToggleButtonGroup, Button, Tabs, Tab, ButtonToolbar, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Container, Form, Row, Col, ToggleButton, ToggleButtonGroup, Button, Tabs, Tab, ButtonToolbar, OverlayTrigger, Tooltip, ListGroup } from 'react-bootstrap';
 import FileUpload2 from '../Data/FileUpload_2';
 // import InputSlider from 'react-input-slider';
 import Box from '@mui/material/Box';
@@ -341,26 +341,18 @@ const BUTTONS = [
   { id: 12, row: 1, col: 2, title: '1,2' },
   { id: 13, row: 1, col: 3, title: '1,3' },
   { id: 14, row: 1, col: 4, title: '1,4' },
-  { id: 15, row: 1, col: 5, title: '1,5' },
-  { id: 16, row: 1, col: 6, title: '1,6' },
   { id: 21, row: 2, col: 1, title: '2,1' },
   { id: 22, row: 2, col: 2, title: '2,2' },
   { id: 23, row: 2, col: 3, title: '2,3' },
   { id: 24, row: 2, col: 4, title: '2,4' },
-  { id: 25, row: 2, col: 5, title: '2,5' },
-  { id: 26, row: 2, col: 6, title: '2,6' },
   { id: 31, row: 3, col: 1, title: '3,1' },
   { id: 32, row: 3, col: 2, title: '3,2' },
   { id: 33, row: 3, col: 3, title: '3,3' },
   { id: 34, row: 3, col: 4, title: '3,4' },
-  { id: 35, row: 3, col: 5, title: '3,5' },
-  { id: 36, row: 3, col: 6, title: '3,6' },
   { id: 41, row: 4, col: 1, title: '4,1' },
   { id: 42, row: 4, col: 2, title: '4,2' },
   { id: 43, row: 4, col: 3, title: '4,3' },
   { id: 44, row: 4, col: 4, title: '4,4' },
-  { id: 45, row: 4, col: 5, title: '4,5' },
-  { id: 46, row: 4, col: 6, title: '4,6' }
 ]
 
 const RFC_MAP = [
@@ -446,6 +438,7 @@ class DUT_GEN2 extends React.Component {
         chosenBeam: '',
         beam_toggle: 0,
         dut: '',
+        evb_pn: '',
         dut_sn: '',
         evb_sn: '',
         message: '',
@@ -461,7 +454,7 @@ class DUT_GEN2 extends React.Component {
         arr3_beam:'',
         arr4_beam: '',
         
-        compensate: "True",
+        compensate: "False",
 
         phases: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         ge_gain_vals: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -610,10 +603,10 @@ class DUT_GEN2 extends React.Component {
     }
 
     handleButton = button => {
-      let tmp = this.state.selectedModules;
+      let tmp = [];
       console.log(tmp);
-      let tmp_rows = this.state.rows;
-      let tmp_cols = this.state.cols;
+      let tmp_rows = [];
+      let tmp_cols = [];
       if (this.state.selectedModules.includes(button.id)) {
           tmp_rows = this.removeItemOnce(tmp_rows, button.row)
           tmp_cols = this.removeItemOnce(tmp_cols, button.col)
@@ -739,9 +732,9 @@ class DUT_GEN2 extends React.Component {
     connect = e => {
         e.preventDefault();
         if (this.state.dut === "kfam") {
-            this.sendMove(`init/kfam+${this.state.polarity}+${this.state.tx_rx}+${this.state.reset_dut}+${this.state.evb_sn}+${this.state.dut_sn}+${this.state.ic_gen}`);
+            this.sendMove(`init/kfam+${this.state.polarity}+${this.state.tx_rx}+${this.state.reset_dut}+${this.state.evb_pn}+${this.state.dut_sn}+${this.state.ic_gen}`);
         } else {
-            this.sendMove(`init/paam+${this.state.polarity}+${this.state.tx_rx}+${this.state.reset_dut}+${this.state.evb_sn}+${this.state.dut_sn}`);
+            this.sendMove(`init/paam+${this.state.polarity}+${this.state.tx_rx}+${this.state.reset_dut}+${this.state.evb_pn}+${this.state.dut_sn}`);
         }
         this.setState({
             // currBeam: "1",
@@ -1559,8 +1552,8 @@ class DUT_GEN2 extends React.Component {
                                         <Form.Group>
                                             <Form.Label>Select DUT:</Form.Label>
                                             <select style={{width: "150px", resize:'none', float: 'right'}} class="form-select" name="dut" aria-label="Default select example"  onChange={this.handleInputChange}>
-                                                <option>Select DUT</option>
-                                                <option selected value="kfam">KFAM</option>
+                                                <option selected>Select DUT</option>
+                                                <option value="kfam">KFAM</option>
                                                 <option value="paam">PAAM</option>
                                             </select>
                                         </Form.Group>
@@ -1570,12 +1563,67 @@ class DUT_GEN2 extends React.Component {
                                             <Form.Label>Select IC Gen:</Form.Label>
                                             <select style={{width: "150px", resize:'none', float: 'right'}} class="form-select" name="ic_gen" aria-label="Default select example"  onChange={this.handleInputChange}>
                                                 <option selected>Select DUT</option>
-                                                <option value="1p5">1.5</option>
                                                 <option value="2p0">2.0</option>
                                                 <option value="2p1">2.1</option>
                                             </select>
                                         </Form.Group>
                                     </Col>
+                                </Row>
+                                <Row>
+                                  <Col>
+                                      <Form.Group>
+                                          <Form.Label>EVB PN:</Form.Label>
+                                          {/* <Form.Control style={{width:'150px', resize:'none', float: 'right'}} name="evb_sn" value={this.state.evb_sn} placeholder="EVB SN." onChange={this.handleInputChange}/> */}
+                                          <select style={{width: "150px", resize:'none', float: 'right'}} class="form-select" name="evb_pn" aria-label="Default select example"  onChange={this.handleInputChange}>
+                                              <option selected>Select EVB</option>
+                                              {this.state.dut === "paam" &&
+                                              <option value="5207">5207</option>}
+                                              {this.state.dut === "kfam" &&
+                                              <option value="5216">5216</option>}
+                                          </select>
+                                      </Form.Group>
+                                  </Col>
+                                  <Col>
+                                        <Form.Group>
+                                            <Form.Label>Reset DUT</Form.Label>
+                                            <ToggleButtonGroup type="radio" name="reset_dut" defaultValue={"False"} style={{width: "150px", resize:'none', float: 'right'}}>
+                                                <ToggleButton variant="outline-dark" id="reset_dut_false" value={"True"} checked={this.state.checked === "True"} onChange={this.handleInputChange}>
+                                                    True
+                                                </ToggleButton>
+                                                <ToggleButton variant="outline-dark" id="reset_dut_true" value={"False"} checked={this.state.checked === "False"} onChange={this.handleInputChange}>
+                                                    False
+                                                </ToggleButton>
+                                            </ToggleButtonGroup>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                  <Col>
+                                      <Form.Group>
+                                          <Form.Label>Polarization:</Form.Label>
+                                          <ToggleButtonGroup type="radio" name="polarity" defaultValue={"H"} style={{width: "150px", resize:'none', float: 'right'}}>
+                                              <ToggleButton variant="outline-dark" id="pol_v" value={"V"} checked={this.state.checked === "V"} onChange={this.handleInputChange}>
+                                                  V
+                                              </ToggleButton>
+                                              <ToggleButton variant="outline-dark" id="pol_h" value={"H"} checked={this.state.checked === "H"} onChange={this.handleInputChange}>
+                                                  H
+                                              </ToggleButton>
+                                          </ToggleButtonGroup>
+                                      </Form.Group>
+                                  </Col>
+                                  <Col>
+                                      <Form.Group>
+                                          <Form.Label>TX/RX:</Form.Label>
+                                          <ToggleButtonGroup type="radio" name="tx_rx" defaultValue={"TX"} style={{width: "150px", resize:'none', float: 'right'}}>
+                                              <ToggleButton variant="outline-dark" id="tx" value={"TX"} checked={this.state.checked === "TX"} onChange={this.handleInputChange}>
+                                                  TX
+                                              </ToggleButton>
+                                              <ToggleButton variant="outline-dark" id="rx" value={"RX"} checked={this.state.checked === "RX"} onChange={this.handleInputChange}>
+                                                  RX
+                                              </ToggleButton>
+                                          </ToggleButtonGroup>
+                                      </Form.Group>
+                                  </Col>
                                 </Row>
                                 <Row>
                                   <Col>
@@ -1590,50 +1638,8 @@ class DUT_GEN2 extends React.Component {
                                           <Form.Label>EVB SN:</Form.Label>
                                           <Form.Control style={{width:'150px', resize:'none', float: 'right'}} name="evb_sn" value={this.state.evb_sn} placeholder="EVB SN." onChange={this.handleInputChange}/>
                                       </Form.Group>
-                                  
+                                
                                   </Col>
-                                </Row>
-                                <br/>
-                                <Row>
-                                    <Col>
-                                        <Form.Group>
-                                            <Form.Label>Polarity</Form.Label>
-                                            <ToggleButtonGroup type="radio" name="polarity" defaultValue={"H"}>
-                                                <ToggleButton variant="outline-dark" id="pol_v" value={"V"} checked={this.state.checked === "V"} onChange={this.handleInputChange}>
-                                                    V
-                                                </ToggleButton>
-                                                <ToggleButton variant="outline-dark" id="pol_h" value={"H"} checked={this.state.checked === "H"} onChange={this.handleInputChange}>
-                                                    H
-                                                </ToggleButton>
-                                            </ToggleButtonGroup>
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group>
-                                            <Form.Label>TX/RX</Form.Label>
-                                            <ToggleButtonGroup type="radio" name="tx_rx" defaultValue={"TX"}>
-                                                <ToggleButton variant="outline-dark" id="tx" value={"TX"} checked={this.state.checked === "TX"} onChange={this.handleInputChange}>
-                                                    TX
-                                                </ToggleButton>
-                                                <ToggleButton variant="outline-dark" id="rx" value={"RX"} checked={this.state.checked === "RX"} onChange={this.handleInputChange}>
-                                                    RX
-                                                </ToggleButton>
-                                            </ToggleButtonGroup>
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group>
-                                            <Form.Label>Reset DUT</Form.Label>
-                                            <ToggleButtonGroup type="radio" name="reset_dut" defaultValue={"False"}>
-                                                <ToggleButton variant="outline-dark" id="reset_dut_false" value={"True"} checked={this.state.checked === "True"} onChange={this.handleInputChange}>
-                                                    True
-                                                </ToggleButton>
-                                                <ToggleButton variant="outline-dark" id="reset_dut_true" value={"False"} checked={this.state.checked === "False"} onChange={this.handleInputChange}>
-                                                    False
-                                                </ToggleButton>
-                                            </ToggleButtonGroup>
-                                        </Form.Group>
-                                    </Col>
                                 </Row>
                                 <br/>
                                 <OverlayTrigger
@@ -1695,9 +1701,9 @@ class DUT_GEN2 extends React.Component {
                                       <br/>
                                         <br/>
                                         <Row>
-                                          <Col sm>
-                                                <h5>Modules Powered On (Display Grid)</h5>
-                                                <Container style={{width: "350px"}}>
+                                          <Col>
+                                                <h6>Status Grid</h6>
+                                                <Container style={{width: "250px"}}>
                                                   {/* <ButtonToolbar style={{width: "400px"}}> */}
                                                   {/* <ToggleButtonGroup type='checkbox' value={this.state.modulesOn}> */}
                                                   {BUTTONS.map(bt => (
@@ -1717,9 +1723,21 @@ class DUT_GEN2 extends React.Component {
                                               </Container >
                                           <hr/>
                                           </Col>
-                                          <Col sm>
-                                          <h5>Selection Grid</h5>
-                                            <Container style={{width: "350px"}}>
+                                          <Col xs={1}>
+                                            <Container style={{width: "100px", float: "left"}}>
+                                              <h6>Subarray</h6>
+                                              <ListGroup>
+                                                <ListGroup.Item style={{"font-size": "14px"}}>1U</ListGroup.Item>
+                                                <ListGroup.Item style={{"font-size": "14px"}}>1D</ListGroup.Item>
+                                                <ListGroup.Item style={{"font-size": "14px"}}>2U</ListGroup.Item>
+                                                <ListGroup.Item style={{"font-size": "14px"}}>2D</ListGroup.Item>
+                                                <hr/>
+                                              </ListGroup>
+                                            </Container>
+                                          </Col>
+                                          <Col style={{float:"right"}}>
+                                            <h6>Selection Grid</h6>
+                                            <Container style={{width: "250px"}}>
                                                 <ButtonToolbar>
                                                 {/* <ToggleButtonGroup style={{width: "400px"}} type='checkbox'> */}
                                                 {BUTTONS.map(bt => (
@@ -1746,10 +1764,11 @@ class DUT_GEN2 extends React.Component {
                                                 
                                             </Container >
                                           </Col>
-                                          <Col xs={7} style={{width: "100px"}}>
-                                            <h5>IF</h5>
+                                          
+                                          <Col xs={6} style={{width: "100px", float: "left"}}>
+                                            <h6>IF SG</h6>
 
-                                            <Container style={{width: "100px"}}>
+                                            <Container style={{width: "100px", float: "left"}}>
                                               {/* <Col> */}
                                                 <select class="form-select form-select" style={{width: "70px"}} name='subarray1_if' aria-label=".form-select-sm example" onChange={this.handleInputChange}>
                                                     <option selected></option>
@@ -1762,66 +1781,65 @@ class DUT_GEN2 extends React.Component {
                                                     <option value="if1_sg">IF1</option>
                                                     <option value="if2_sg">IF2</option>
                                                     {/* <option value="2">Two</option> */}
-                                                  </select>
-                                                  <br/>
-                                                  <select class="form-select form-select" style={{width: "70px"}} name='subarray3_if' aria-label=".form-select-sm example" onChange={this.handleInputChange}>
-                                                    <option selected></option>
-                                                    <option value="if1_sg">IF1</option>
-                                                    <option value="if2_sg">IF2</option>
-                                                    {/* <option value="2">Two</option> */}
-                                                  </select>
-                                                  <select class="form-select form-select" style={{width: "70px"}} name='subarray4_if' aria-label=".form-select-sm example" onChange={this.handleInputChange}>
-                                                    <option selected></option>
-                                                    <option value="if1_sg">IF1</option>
-                                                    <option value="if2_sg">IF2</option>
-                                                    {/* <option value="2">Two</option> */}
-                                                  </select>
+                                                </select>
+                                                <select class="form-select form-select" style={{width: "70px"}} name='subarray3_if' aria-label=".form-select-sm example" onChange={this.handleInputChange}>
+                                                  <option selected></option>
+                                                  <option value="if1_sg">IF1</option>
+                                                  <option value="if2_sg">IF2</option>
+                                                  {/* <option value="2">Two</option> */}
+                                                </select>
+                                                <select class="form-select form-select" style={{width: "70px"}} name='subarray4_if' aria-label=".form-select-sm example" onChange={this.handleInputChange}>
+                                                  <option selected></option>
+                                                  <option value="if1_sg">IF1</option>
+                                                  <option value="if2_sg">IF2</option>
+                                                  {/* <option value="2">Two</option> */}
+                                                </select>
+                                                <hr/>
                                               {/* </Col> */}
                                             </Container>
                                           </Col>
-                                          <Col xs={6} style={{width: "100px"}}>
-                                            <h5>LO</h5>
+                                          <Col xs={6} style={{width: "100px", float: "left"}}>
+                                            <h6>LO SG</h6>
 
-                                            <Container>
+                                            <Container style={{width: "100px", float: "left"}}>
                                               {/* <Col> */}
-                                                <select class="form-select form-select" style={{width: "80px"}} name='subarray1_lo' aria-label=".form-select-sm example" onChange={this.handleInputChange}>
+                                                <select class="form-select form-select" style={{width: "75px"}} name='subarray1_lo' aria-label=".form-select-sm example" onChange={this.handleInputChange}>
                                                     <option selected></option>
                                                     <option value="lo1_sg">LO1</option>
                                                     <option value="lo2_sg">LO2</option>
                                                     {/* <option value="2">Two</option> */}
                                                 </select>
-                                                <select class="form-select form-select" style={{width: "80px"}} name='subarray2_lo' aria-label=".form-select-sm example" onChange={this.handleInputChange}>
+                                                <select class="form-select form-select" style={{width: "75px"}} name='subarray2_lo' aria-label=".form-select-sm example" onChange={this.handleInputChange}>
                                                     <option selected></option>
                                                     <option value="lo1_sg">LO1</option>
                                                     <option value="lo2_sg">LO2</option>
                                                     {/* <option value="2">Two</option> */}
-                                                  </select>
-                                                  <br/>
-                                                  <select class="form-select form-select" style={{width: "80px"}} name='subarray3_lo' aria-label=".form-select-sm example" onChange={this.handleInputChange}>
-                                                    <option selected></option>
-                                                    <option value="lo1_sg">LO1</option>
-                                                    <option value="lo2_sg">LO2</option>
-                                                    {/* <option value="2">Two</option> */}
-                                                  </select>
-                                                  <select class="form-select form-select" style={{width: "80px"}} name='subarray4_lo' aria-label=".form-select-sm example" onChange={this.handleInputChange}>
-                                                    <option selected></option>
-                                                    <option value="lo1_sg">LO1</option>
-                                                    <option value="lo2_sg">LO2</option>
-                                                    {/* <option value="2">Two</option> */}
-                                                  </select>
+                                                </select>
+                                                <select class="form-select form-select" style={{width: "75px"}} name='subarray3_lo' aria-label=".form-select-sm example" onChange={this.handleInputChange}>
+                                                  <option selected></option>
+                                                  <option value="lo1_sg">LO1</option>
+                                                  <option value="lo2_sg">LO2</option>
+                                                  {/* <option value="2">Two</option> */}
+                                                </select>
+                                                <select class="form-select form-select" style={{width: "75px"}} name='subarray4_lo' aria-label=".form-select-sm example" onChange={this.handleInputChange}>
+                                                  <option selected></option>
+                                                  <option value="lo1_sg">LO1</option>
+                                                  <option value="lo2_sg">LO2</option>
+                                                  {/* <option value="2">Two</option> */}
+                                                </select>
+                                                <hr/>
                                                 {/* </Col> */}
-                                              
-
+                                            
                                               </Container>
-                                            <Button onClick={this.selectModule}>Select Modules</Button>
                                 
                                           </Col>
                                           
                                         </Row>                                
                                         <Row>
-                                        <Form.Group>
-                                              <Form.Label>Compensate</Form.Label>
-                                              <ToggleButtonGroup type="radio" name="compensate" defaultValue={"True"}>
+                                          <Col md={4}>
+                                            <Form.Group>
+                                              <Form.Label>Compensate:</Form.Label>
+                                              <ToggleButtonGroup size='sm' type="radio" name="compensate" defaultValue={"False"} style={{float: 'right'}}>
                                                   <ToggleButton variant="outline-dark" id="compensate_true" value={"True"} checked={this.state.checked === "True"} onChange={this.handleInputChange}>
                                                       True
                                                   </ToggleButton>
@@ -1829,20 +1847,30 @@ class DUT_GEN2 extends React.Component {
                                                       False
                                                   </ToggleButton>
                                               </ToggleButtonGroup>
-                                          </Form.Group>
-                                        </Row>
-                                        <Row style={{float: 'right'}}>
+                                            </Form.Group>
+                                          </Col>
                                           
-                                          <Button size="sm" style={{width:'100px', resize:'none', float: 'right'}} onClick={this.paamModule}>
-                                              Power On
-                                          </Button>
-                                          {' '}
-                                          <Button size="sm" variant="danger" style={{width:'100px', resize:'none', float: 'right'}} onClick={this.moduleStandby}>
-                                            RFCs Off
-                                          </Button>
-                                          <Button size="sm" variant="success" style={{width:'100px', resize:'none', float: 'right'}} onClick={this.paam_rfcs_on}>
-                                            RFCs On
-                                          </Button>
+                                          <Col md={2}>
+                                            <Button size="sm" variant='outline-dark' onClick={this.selectModule} style={{float: 'left'}}>Select Modules</Button>                                          
+                                          </Col>
+                                        {/* </Row>
+                                        <Row style={{float: 'right'}}> */}
+                                          <Col xs={2}>
+                                            <Button size="sm" style={{width:'100px', resize:'none', float: 'right'}} onClick={this.paamModule}>
+                                                Power Cycle
+                                            </Button>
+                                          </Col>
+                                          <Col xs={2}>
+                                            <Button size="sm" variant="danger" style={{width:'100px', resize:'none', float: 'right'}} onClick={this.moduleStandby}>
+                                              RFCs Off
+                                            </Button>
+                                          </Col>
+                                          <Col xs={2}>
+                                            <Button size="sm" variant="success" style={{width:'100px', resize:'none', float: 'right'}} onClick={this.paam_rfcs_on}>
+                                              RFCs On
+                                            </Button>
+                                          </Col>
+                                          
                                         </Row>
                                         
                                           {/* <Col> */}
